@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import List from '@material-ui/core/List';
 import User from './User';
 
 const UserList = ({ users }) => {
   return (
-    <div>
+    <List>
       {users.map(user => {
         return (
           <User confirmed={user.confirmed} name={user.name} key={user.name} />
         );
       })}
-    </div>
+    </List>
   );
 };
 

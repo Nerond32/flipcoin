@@ -21,6 +21,7 @@ module.exports = {
     'babel/semi': 0,
     'prettier/prettier': [2, { singleQuote: true, endOfLine: 'auto' }],
     'react/prop-types': 1,
+    'react/forbid-prop-types': 0,
     'react-hooks/exhaustive-deps': 1
   },
   settings: {

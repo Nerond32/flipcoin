@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import createRoom from 'mock/createRoom';
+import { createRoom } from 'mock/roomAPI';
 import Starter from './Starter';
 import Room from './Room';
 

@@ -1,24 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Route, BrowserRouter } from 'react-router-dom';
-import Content from './Content';
-import Header from './Header';
-import Starter from './Starter';
+import { BrowserRouter } from 'react-router-dom';
+import Header from 'components/App/Header';
+import Content from 'components/App/Content';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Header />
-      <Route exact="/" component={Starter} />
-      <Route path="/:room" component={Content} />
+      <Content />
     </BrowserRouter>
   );
-};
-
-App.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
 };
 
 export default App;

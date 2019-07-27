@@ -1,8 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import coinImg from './coin.png';
 
 const Header = () => {
-  return <img src={coinImg} alt="Logo" />;
+  return (
+    <Link to="/">
+      <img src={coinImg} alt="Logo" />
+    </Link>
+  );
 };
 
 export default Header;

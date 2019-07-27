@@ -1,17 +1,36 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { coinFlip } from 'utils/random';
+import { withRouter, Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import createRoom from 'mock/createRoom';
+import Starter from './Starter';
+import Room from './Room';
 
-const rand = () => {
-  console.log(coinFlip());
+class Content extends React.PureComponent {
+  handleRoomCreation = () => {
+    const { history } = this.props;
+    history.push(`/room${createRoom()}`);
+  };
+
+  render() {
+    return (
+      <div>
+        <Route
+          exact
+          path="/"
+          render={props => (
+            <Starter {...props} handler={this.handleRoomCreation} />
+          )}
+        />
+        <Route path="/room/:id" component={Room} />
+      </div>
+    );
+  }
+}
+
+Content.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 };
 
-const Content = () => {
-  return (
-    <Button variant="contained" color="primary" onClick={rand}>
-      FLIP
-    </Button>
-  );
-};
-
-export default Content;
+export default withRouter(Content);

@@ -6,8 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import { creationFormUpdateField } from 'redux/actions/actions';
 
 const Starter = ({ createRoomForm, handler, updateFormField }) => {
-  const onChange = event => {
-    const { name, value } = event.target;
+  const onChange = ({ target: { name, value } }) => {
     updateFormField({ name, value });
   };
   return (

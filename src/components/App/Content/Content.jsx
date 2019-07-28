@@ -2,25 +2,27 @@ import React from 'react';
 import { withRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { createRoom } from 'mock/roomAPI';
 import axios from 'utils/axios';
 import Starter from './Starter';
 import Room from './Room';
 
 class Content extends React.PureComponent {
-  handleRoomCreation = () => {
-    const { createRoomForm } = this.props;
-    const { roomName, username } = createRoomForm;
+  handleRoomCreation = event => {
+    event.preventDefault();
+    const {
+      createRoomForm: { roomName, username },
+      history
+    } = this.props;
     axios
       .post('api/rooms', { roomName, username })
       .then(response => {
-        console.log(response);
+        if (response.status === 201) {
+          history.push(`/room/${roomName}`);
+        }
       })
       .catch(error => {
         console.log(error);
       });
-    const { history } = this.props;
-    history.push(`/room${createRoom()}`);
   };
 
   render() {

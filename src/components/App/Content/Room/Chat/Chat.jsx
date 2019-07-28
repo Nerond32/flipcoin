@@ -1,13 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import msgs from 'mock/chatMsgs';
 import Display from './Display';
 import './Chat.scss';
 
-const Chat = () => {
+const Chat = ({ messages }) => {
   return (
     <div className="chat">
-      <Display messages={msgs} />
+      <Display messages={messages} />
       <TextField
         style={{ margin: 8 }}
         fullWidth
@@ -21,4 +22,19 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+Chat.propTypes = {
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      source: PropTypes.string,
+      content: PropTypes.string
+    })
+  ).isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    messages: state.room.messages
+  };
+};
+
+export default connect(mapStateToProps)(Chat);

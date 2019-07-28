@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createRoom } from 'mock/roomAPI';
 import axios from 'utils/axios';
@@ -8,8 +9,10 @@ import Room from './Room';
 
 class Content extends React.PureComponent {
   handleRoomCreation = () => {
+    const { createRoomForm } = this.props;
+    const { roomName, username } = createRoomForm;
     axios
-      .get('api/rooms')
+      .post('api/rooms', { roomName, username })
       .then(response => {
         console.log(response);
       })
@@ -37,9 +40,19 @@ class Content extends React.PureComponent {
 }
 
 Content.propTypes = {
+  createRoomForm: PropTypes.shape({
+    roomName: PropTypes.string,
+    username: PropTypes.string
+  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired
 };
 
-export default withRouter(Content);
+const mapStateToProps = state => {
+  return {
+    createRoomForm: state.createRoomForm
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(Content));

@@ -1,13 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { creationFormUpdateField } from 'redux/actions/actions';
 
-const Starter = ({ handler }) => {
+const Starter = ({ createRoomForm, handler, updateFormField }) => {
+  const onChange = event => {
+    const { name, value } = event.target;
+    updateFormField({ name, value });
+  };
   return (
     <form onSubmit={handler}>
-      <TextField id="roomName" name="roomName" label="Room name" />
-      <TextField id="username" name="username" label="Username" />
+      <TextField
+        id="roomName"
+        name="roomName"
+        label="Room name"
+        value={createRoomForm.roomName}
+        onChange={onChange}
+      />
+      <TextField
+        id="username"
+        name="username"
+        label="Username"
+        value={createRoomForm.username}
+        onChange={onChange}
+      />
       <Button type="submit" variant="contained" color="primary">
         Create Room
       </Button>
@@ -16,7 +34,27 @@ const Starter = ({ handler }) => {
 };
 
 Starter.propTypes = {
-  handler: PropTypes.func.isRequired
+  createRoomForm: PropTypes.shape({
+    roomName: PropTypes.string,
+    username: PropTypes.string
+  }).isRequired,
+  handler: PropTypes.func.isRequired,
+  updateFormField: PropTypes.func.isRequired
 };
 
-export default Starter;
+const mapStateToProps = state => {
+  return {
+    createRoomForm: state.createRoomForm
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    updateFormField: payload => dispatch(creationFormUpdateField(payload))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Starter);

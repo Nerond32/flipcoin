@@ -1,31 +1,16 @@
-import { CREATION_FORM_UPDATE_FIELD, UPDATE_ROOM } from 'redux/actions/actions';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import createForm from './createForm';
+import room from './room';
 
-const initialState = {
-  createRoomForm: { username: '', roomName: '' },
-  room: { name: '', users: [], messages: [] }
+const createFormPersistConfig = {
+  key: 'createForm',
+  storage,
+  whitelist: ['username']
 };
 
-const rootReducer = (state = initialState, action) => {
-  if (action.type === CREATION_FORM_UPDATE_FIELD) {
-    return {
-      ...state,
-      createRoomForm: {
-        ...state.createRoomForm,
-        [action.payload.name]: action.payload.value
-      }
-    };
-  }
-  if (action.type === UPDATE_ROOM) {
-    const { name, users, messages } = action.payload;
-    return {
-      ...state,
-      room: {
-        name,
-        users,
-        messages
-      }
-    };
-  }
-  return state;
-};
-export default rootReducer;
+export default combineReducers({
+  createForm: persistReducer(createFormPersistConfig, createForm),
+  room
+});

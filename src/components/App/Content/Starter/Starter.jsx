@@ -43,7 +43,7 @@ Starter.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    createRoomForm: state.createRoomForm
+    createRoomForm: state.createForm
   };
 };
 

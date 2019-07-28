@@ -9,9 +9,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 const User = ({ confirmed, name }) => {
   return (
     <ListItem>
-      <ListItemIcon>
-        {confirmed && <FontAwesomeIcon icon={faCheck} />}
-      </ListItemIcon>
+      {confirmed && (
+        <ListItemIcon>
+          <FontAwesomeIcon icon={faCheck} />
+        </ListItemIcon>
+      )}
       <ListItemText primary={name} />
     </ListItem>
   );

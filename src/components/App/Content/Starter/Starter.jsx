@@ -1,12 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 const Starter = ({ handler }) => {
   return (
-    <Button variant="contained" color="primary" onClick={handler}>
-      Create Room
-    </Button>
+    <form onSubmit={handler}>
+      <TextField id="roomName" name="roomName" label="Room name" />
+      <TextField id="username" name="username" label="Username" />
+      <Button type="submit" variant="contained" color="primary">
+        Create Room
+      </Button>
+    </form>
   );
 };
 

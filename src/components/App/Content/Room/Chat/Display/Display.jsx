@@ -6,7 +6,7 @@ const Display = ({ messages }) => {
     <div className="chatDisplay">
       {messages.map(msg => {
         return (
-          <p key={msg}>
+          <p key={msg.content}>
             {msg.source}:{msg.content}
           </p>
         );

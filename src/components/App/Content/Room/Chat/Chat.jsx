@@ -1,8 +1,8 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import msgs from 'mock/chatMsgs';
 import Display from './Display';
 import './Chat.scss';
-import msgs from 'mock/chatMsgs';
 
 const Chat = () => {
   return (

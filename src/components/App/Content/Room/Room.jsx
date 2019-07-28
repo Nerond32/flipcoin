@@ -1,22 +1,29 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import { coinFlip } from 'utils/random';
+import Grid from '@material-ui/core/Grid';
 import { pingRoom } from 'mock/roomAPI';
+import Chat from './Chat';
 import UserList from './UserList';
-
-const rand = () => {
-  console.log(coinFlip());
-};
+import Settings from './Settings';
+import './Room.scss';
 
 const Room = () => {
   const pingResp = pingRoom();
   return (
-    <div>
+    <div className="room">
       <h1>ROOM</h1>
-      <Button variant="contained" color="primary" onClick={rand}>
-        FLIP
-      </Button>
-      <UserList users={pingResp.users} />
+      <Grid container spacing={2} alignItems="stretch">
+        <Grid item xs={8}>
+          <Chat />
+        </Grid>
+        <Grid container xs={4} alignItems="stretch">
+          <Grid item xs={12}>
+            <Settings />
+          </Grid>
+          <Grid item xs={12}>
+            <UserList users={pingResp.users} />
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 };

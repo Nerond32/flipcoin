@@ -5,7 +5,7 @@ import User from './User';
 
 const UserList = ({ users }) => {
   return (
-    <List>
+    <List dense>
       {users.map(user => {
         return (
           <User confirmed={user.confirmed} name={user.name} key={user.name} />

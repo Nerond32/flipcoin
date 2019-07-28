@@ -1,0 +1,14 @@
+header {
+    background-color:red;
+    padding:1em;
+    & > * {
+        display:inline;
+    }
+    h1 {
+        font-size: 4em;
+    }
+    .logo {
+        height: 5em;
+        width: 5em;
+    }
+}

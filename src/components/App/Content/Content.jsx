@@ -13,7 +13,7 @@ class Content extends React.PureComponent {
 
   render() {
     return (
-      <div>
+      <React.Fragment>
         <Route
           exact
           path="/"
@@ -22,7 +22,7 @@ class Content extends React.PureComponent {
           )}
         />
         <Route path="/room/:id" component={Room} />
-      </div>
+      </React.Fragment>
     );
   }
 }

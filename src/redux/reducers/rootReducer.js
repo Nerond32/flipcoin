@@ -10,7 +10,13 @@ const createFormPersistConfig = {
   whitelist: ['username']
 };
 
+const roomPersistConfig = {
+  key: 'room',
+  storage,
+  blacklist: []
+};
+
 export default combineReducers({
   createForm: persistReducer(createFormPersistConfig, createForm),
-  room
+  room: persistReducer(roomPersistConfig, room)
 });

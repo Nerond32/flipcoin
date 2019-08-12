@@ -52,7 +52,6 @@ Content.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state);
   return {
     createRoomForm: state.createForm
   };

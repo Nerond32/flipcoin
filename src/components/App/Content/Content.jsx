@@ -25,9 +25,7 @@ class Content extends React.PureComponent {
           history.push(`/room/${roomName}`);
         }
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(() => {});
   };
 
   handleSubmittedUsername = username => {

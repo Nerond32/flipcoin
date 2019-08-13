@@ -22,7 +22,6 @@ const roomReducer = (state = initialState, action) => {
       messages: [...state.messages, action.payload.newMessage]
     };
   }
-  console.log(action);
   if (action.type === SAVE_TOKEN) {
     const { username, token } = action.payload;
     return {

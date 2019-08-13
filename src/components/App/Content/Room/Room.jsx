@@ -31,9 +31,7 @@ class Room extends React.PureComponent {
           username
         });
       })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(() => {});
   }
 
   render() {
@@ -69,7 +67,6 @@ Room.propTypes = {
 };
 
 const mapStateToProps = state => {
-  console.log(state.room);
   return {
     roomName: state.room.name,
     userToken: state.room.token,

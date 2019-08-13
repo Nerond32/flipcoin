@@ -17,6 +17,7 @@ const EnterNameModal = ({ handleSubmit }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { input: '' });
   return (
     <div className="modal-main">
+      <h4>Enter your username:</h4>
       <TextField
         id="username"
         name="username"

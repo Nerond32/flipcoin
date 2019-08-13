@@ -10,11 +10,11 @@ import './Room.scss';
 
 class Room extends React.PureComponent {
   componentDidMount() {
-    const { match, userToken, updateRoomData } = this.props;
+    const { match, userToken, updateRoomData, usrname } = this.props;
     axios
       .post(
         `api/rooms/${match.params.id}`,
-        { username: 'syf' },
+        { username: usrname },
         {
           headers: {
             token: userToken
@@ -22,12 +22,13 @@ class Room extends React.PureComponent {
         }
       )
       .then(response => {
-        const { name, users, messages, token } = response.data;
+        const { name, users, messages, token, username } = response.data;
         updateRoomData({
           name,
           users,
           messages,
-          token
+          token,
+          username
         });
       })
       .catch(error => {
@@ -63,14 +64,17 @@ Room.propTypes = {
     PropTypes.shape({ name: PropTypes.string, confirmed: PropTypes.bool })
   ).isRequired,
   userToken: PropTypes.string.isRequired,
-  updateRoomData: PropTypes.func.isRequired
+  updateRoomData: PropTypes.func.isRequired,
+  usrname: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
+  console.log(state.room);
   return {
     roomName: state.room.name,
     userToken: state.room.token,
-    users: state.room.users
+    users: state.room.users,
+    usrname: state.room.username
   };
 };
 

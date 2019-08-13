@@ -1,5 +1,7 @@
 import {
   HANDLE_NEW_MESSAGE,
+  SAVE_TOKEN,
+  SET_USERNAME,
   UPDATE_MESSAGE,
   UPDATE_ROOM
 } from 'redux/actions/actions';
@@ -20,14 +22,31 @@ const roomReducer = (state = initialState, action) => {
       messages: [...state.messages, action.payload.newMessage]
     };
   }
+  console.log(action);
+  if (action.type === SAVE_TOKEN) {
+    const { username, token } = action.payload;
+    return {
+      ...state,
+      token,
+      username
+    };
+  }
+  if (action.type === SET_USERNAME) {
+    const { username } = action.payload;
+    return {
+      ...state,
+      username
+    };
+  }
   if (action.type === UPDATE_ROOM) {
-    const { name, users, messages, token } = action.payload;
+    const { name, users, messages, token, username } = action.payload;
     return {
       ...state,
       name,
       users,
       messages,
-      token
+      token,
+      username
     };
   }
   if (action.type === UPDATE_MESSAGE) {

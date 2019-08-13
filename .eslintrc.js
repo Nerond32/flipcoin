@@ -18,6 +18,7 @@ module.exports = {
   plugins: ['babel', 'react', 'react-hooks', 'prettier', 'jsx-a11y'],
   rules: {
     'no-unused-vars': 1,
+    'no-shadow': 0,
     'babel/semi': 0,
     'prettier/prettier': [2, { singleQuote: true, endOfLine: 'auto' }],
     'react/prop-types': 1,

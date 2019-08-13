@@ -30,12 +30,12 @@ class Chat extends React.PureComponent {
   };
 
   sendMessage = () => {
-    const { messageInput, updateMsg } = this.props;
+    const { messageInput, updateMsg, username, roomName } = this.props;
     const { socket } = this.state;
     socket.send(
       JSON.stringify({
-        sender: 'guest',
-        roomName: 'test',
+        sender: username,
+        roomName,
         message: messageInput
       })
     );
@@ -76,14 +76,16 @@ Chat.propTypes = {
   messageInput: PropTypes.string.isRequired,
   newMessage: PropTypes.func.isRequired,
   roomName: PropTypes.string.isRequired,
-  updateMsg: PropTypes.func.isRequired
+  updateMsg: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     messageInput: state.room.messageInput,
     messages: state.room.messages,
-    roomName: state.room.name
+    roomName: state.room.name,
+    username: state.room.username
   };
 };
 

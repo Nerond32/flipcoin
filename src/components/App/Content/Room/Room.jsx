@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { updateRoom } from 'redux/actions/actions';
+import { setUsername, updateRoom } from 'redux/actions/actions';
 import axios from 'utils/axios';
 import Chat from './Chat';
 import UserList from './UserList';
@@ -21,7 +21,14 @@ class Room extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { match, userToken, updateRoomData, userName } = this.props;
+    const { userName, userToken } = this.props;
+    if (userName || userToken) {
+      this.joinRoom(userName, userToken);
+    }
+  }
+
+  joinRoom = (userName, userToken) => {
+    const { match, updateRoomData } = this.props;
     axios
       .post(
         `api/rooms/${match.params.name}`,
@@ -56,28 +63,33 @@ class Room extends React.PureComponent {
           return { ...state, response: 'NOK' };
         });
       });
-  }
+  };
+
+  handleSubmittedUsername = userName => {
+    const { setUsername } = this.props;
+    setUsername({ userName });
+    this.joinRoom(userName, '');
+  };
 
   render() {
     const { match, userToken, users, userName } = this.props;
     const { response } = this.state;
     return (
       <div className="room">
+        {!userName ? (
+          <Route
+            path="/room/:name"
+            render={props => (
+              <EnterNameModal
+                {...props}
+                handleSubmit={this.handleSubmittedUsername}
+              />
+            )}
+          />
+        ) : null}
         {response === 'OK' && (
           <div>
             <h1>{match.params.name}</h1>
-
-            {!userName ? (
-              <Route
-                path="/room/:name"
-                render={props => (
-                  <EnterNameModal
-                    {...props}
-                    handleSubmit={this.handleSubmittedUsername}
-                  />
-                )}
-              />
-            ) : null}
             <div id="chat">
               {userToken && <Chat roomName={match.params.name} />}
             </div>
@@ -104,6 +116,7 @@ Room.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, confirmed: PropTypes.bool })
   ).isRequired,
+  setUsername: PropTypes.func.isRequired,
   userToken: PropTypes.string.isRequired,
   updateRoomData: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired
@@ -114,12 +127,13 @@ const mapStateToProps = state => {
     roomName: state.room.roomName,
     userToken: state.room.userToken,
     users: state.room.users,
-    userName: state.createForm.userName
+    userName: state.room.userName
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    setUsername: payload => dispatch(setUsername(payload)),
     updateRoomData: payload => dispatch(updateRoom(payload))
   };
 };

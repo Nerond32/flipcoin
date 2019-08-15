@@ -1,12 +1,12 @@
-export const CREATION_FORM_UPDATE_FIELD = 'CREATION_FORM_UPDATE_FIELD';
+export const SAVE_LAST_USER_NAME = 'SAVE_LAST_USER_NAME';
 export const HANDLE_NEW_MESSAGE = 'HANDLE_NEW_MESSAGE';
 export const SAVE_TOKEN = 'SAVE_TOKEN';
 export const SET_USERNAME = 'SET_USERNAME';
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
 export const UPDATE_ROOM = 'UPDATE_ROOM';
 
-export const creationFormUpdateField = payload => {
-  return { type: CREATION_FORM_UPDATE_FIELD, payload };
+export const saveLastUserName = payload => {
+  return { type: SAVE_LAST_USER_NAME, payload };
 };
 
 export const handleNewMessage = payload => {

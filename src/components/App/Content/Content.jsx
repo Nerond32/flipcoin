@@ -4,17 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
 import { saveToken, setUsername } from 'redux/actions/actions';
-import Starter from './Starter';
+import CreateRoomForm from 'components/Forms/CreateRoomForm';
 import Room from './Room';
 
 class Content extends React.PureComponent {
-  handleRoomCreation = event => {
-    event.preventDefault();
-    const {
-      createRoomForm: { roomName, userName },
-      history,
-      saveToken
-    } = this.props;
+  handleRoomCreation = ({ roomName, userName }) => {
+    const { history, saveToken } = this.props;
     axios
       .post('api/rooms', { roomName, userName })
       .then(response => {
@@ -39,7 +34,7 @@ class Content extends React.PureComponent {
           exact
           path="/"
           render={props => (
-            <Starter {...props} handler={this.handleRoomCreation} />
+            <CreateRoomForm {...props} handler={this.handleRoomCreation} />
           )}
         />
         <Route path="/room/:name" component={Room} />
@@ -49,10 +44,6 @@ class Content extends React.PureComponent {
 }
 
 Content.propTypes = {
-  createRoomForm: PropTypes.shape({
-    roomName: PropTypes.string,
-    userName: PropTypes.string
-  }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
@@ -63,7 +54,6 @@ Content.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    createRoomForm: state.createForm,
     userName: state.room.userName
   };
 };

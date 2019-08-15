@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import messageTypes from 'constants/messageTypes';
 
 const Display = ({ messages }) => {
   return (
     <div className="chatDisplay">
-      {messages.map(msg => {
+      {messages.map(message => {
         return (
-          <p key={msg.content}>
-            {msg.source}:{msg.content}
+          <p key={message.msgId}>
+            {message.msgType === messageTypes.MESSAGE
+              ? `${message.msgAuthor}:${message.msgContent}`
+              : message.msgContent}
           </p>
         );
       })}
@@ -22,8 +25,10 @@ Display.defaultProps = {
 Display.propTypes = {
   messages: PropTypes.arrayOf(
     PropTypes.shape({
-      source: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired
+      msgId: PropTypes.string.isRequired,
+      msgType: PropTypes.string.isRequired,
+      msgAuthor: PropTypes.string.isRequired,
+      msgContent: PropTypes.string.isRequired
     })
   )
 };

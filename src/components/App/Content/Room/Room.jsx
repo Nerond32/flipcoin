@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { updateRoom } from 'redux/actions/actions';
@@ -6,56 +7,98 @@ import axios from 'utils/axios';
 import Chat from './Chat';
 import UserList from './UserList';
 import Settings from './Settings';
+import EnterNameModal from '../EnterNameModal';
+
 import './Room.scss';
+import NewRoomModal from './NewRoomModal/NewRoomModal';
 
 class Room extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      response: 'NONE'
+    };
+  }
+
   componentDidMount() {
-    const { match, userToken, updateRoomData, usrname } = this.props;
+    const { match, userToken, updateRoomData, userName } = this.props;
     axios
       .post(
-        `api/rooms/${match.params.id}`,
-        { username: usrname },
+        `api/rooms/${match.params.name}`,
+        { userName },
         {
           headers: {
-            token: userToken
+            userToken
           }
         }
       )
       .then(response => {
-        const { name, users, messages, token, username } = response.data;
-        updateRoomData({
-          name,
+        const {
+          roomName,
           users,
           messages,
-          token,
-          username
+          userToken,
+          userName
+        } = response.data;
+        updateRoomData({
+          roomName,
+          users,
+          messages,
+          userToken,
+          userName
+        });
+        this.setState(state => {
+          return { ...state, response: 'OK' };
         });
       })
-      .catch(() => {});
+      .catch(() => {
+        this.setState(state => {
+          return { ...state, response: 'NOK' };
+        });
+      });
   }
 
   render() {
-    const { roomName, users } = this.props;
+    const { match, userToken, users, userName } = this.props;
+    const { response } = this.state;
     return (
       <div className="room">
-        <h1>{roomName}</h1>
-        <div id="chat">{roomName && <Chat />}</div>
-        <div id="settings">
-          <Settings />
-        </div>
-        <div id="userlist">
-          <UserList users={users} />
-        </div>
+        {response === 'OK' && (
+          <div>
+            <h1>{match.params.name}</h1>
+
+            {!userName ? (
+              <Route
+                path="/room/:name"
+                render={props => (
+                  <EnterNameModal
+                    {...props}
+                    handleSubmit={this.handleSubmittedUsername}
+                  />
+                )}
+              />
+            ) : null}
+            <div id="chat">
+              {userToken && <Chat roomName={match.params.name} />}
+            </div>
+            <div id="settings">
+              <Settings />
+            </div>
+            <div id="userlist">
+              <UserList users={users} />
+            </div>
+          </div>
+        )}
+        {response === 'NOK' && <NewRoomModal />}
       </div>
     );
   }
 }
 
 Room.propTypes = {
-  roomName: PropTypes.string.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     })
   }).isRequired,
   users: PropTypes.arrayOf(
@@ -63,15 +106,15 @@ Room.propTypes = {
   ).isRequired,
   userToken: PropTypes.string.isRequired,
   updateRoomData: PropTypes.func.isRequired,
-  usrname: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    roomName: state.room.name,
-    userToken: state.room.token,
+    roomName: state.room.roomName,
+    userToken: state.room.userToken,
     users: state.room.users,
-    usrname: state.room.username
+    userName: state.createForm.userName
   };
 };
 

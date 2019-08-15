@@ -8,7 +8,11 @@ const UserList = ({ users }) => {
     <List dense>
       {users.map(user => {
         return (
-          <User confirmed={user.confirmed} name={user.name} key={user.name} />
+          <User
+            confirmed={user.userConfirmed}
+            name={user.userName}
+            key={user.userName}
+          />
         );
       })}
     </List>

@@ -10,18 +10,29 @@ import './Chat.scss';
 class Chat extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { roomName } = this.props;
     this.state = {
-      socket: new WebSocket(`ws://localhost:7777/api/rooms/${roomName}/chat`)
+      socket: null
     };
   }
 
   componentDidMount() {
-    const { newMessage } = this.props;
-    const { socket } = this.state;
-    socket.addEventListener('message', event => {
-      newMessage({ newMessage: JSON.parse(event.data) });
-    });
+    const { newMessage, roomName, userName } = this.props;
+    this.setState(
+      state => {
+        return {
+          ...state,
+          socket: new WebSocket(
+            `ws://localhost:7777/api/rooms/${roomName}/chat?userName=${userName}`
+          )
+        };
+      },
+      () => {
+        const { socket } = this.state;
+        socket.addEventListener('message', event => {
+          newMessage({ newMessage: JSON.parse(event.data) });
+        });
+      }
+    );
   }
 
   onChange = ({ target: { value } }) => {
@@ -30,11 +41,11 @@ class Chat extends React.PureComponent {
   };
 
   sendMessage = () => {
-    const { messageInput, updateMsg, username, roomName } = this.props;
+    const { messageInput, updateMsg, userName, roomName } = this.props;
     const { socket } = this.state;
     socket.send(
       JSON.stringify({
-        sender: username,
+        sender: userName,
         roomName,
         message: messageInput
       })
@@ -77,15 +88,14 @@ Chat.propTypes = {
   newMessage: PropTypes.func.isRequired,
   roomName: PropTypes.string.isRequired,
   updateMsg: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     messageInput: state.room.messageInput,
     messages: state.room.messages,
-    roomName: state.room.name,
-    username: state.room.username
+    userName: state.room.userName
   };
 };
 

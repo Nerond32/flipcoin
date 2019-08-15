@@ -19,10 +19,10 @@ const Starter = ({ createRoomForm, handler, updateFormField }) => {
         onChange={onChange}
       />
       <TextField
-        id="username"
-        name="username"
+        id="userName"
+        name="userName"
         label="Username"
-        value={createRoomForm.username}
+        value={createRoomForm.userName}
         onChange={onChange}
       />
       <Button type="submit" variant="contained" color="primary">
@@ -35,7 +35,7 @@ const Starter = ({ createRoomForm, handler, updateFormField }) => {
 Starter.propTypes = {
   createRoomForm: PropTypes.shape({
     roomName: PropTypes.string,
-    username: PropTypes.string
+    userName: PropTypes.string
   }).isRequired,
   handler: PropTypes.func.isRequired,
   updateFormField: PropTypes.func.isRequired

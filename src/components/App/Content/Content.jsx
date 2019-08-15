@@ -6,35 +6,33 @@ import axios from 'utils/axios';
 import { saveToken, setUsername } from 'redux/actions/actions';
 import Starter from './Starter';
 import Room from './Room';
-import EnterNameModal from './EnterNameModal';
 
 class Content extends React.PureComponent {
   handleRoomCreation = event => {
     event.preventDefault();
     const {
-      createRoomForm: { roomName, username },
+      createRoomForm: { roomName, userName },
       history,
       saveToken
     } = this.props;
     axios
-      .post('api/rooms', { roomName, username })
+      .post('api/rooms', { roomName, userName })
       .then(response => {
         if (response.status === 201) {
-          const { username, token } = response.data;
-          saveToken({ token, username });
+          const { userName, userToken } = response.data;
+          saveToken({ userToken, userName });
           history.push(`/room/${roomName}`);
         }
       })
       .catch(() => {});
   };
 
-  handleSubmittedUsername = username => {
+  handleSubmittedUsername = userName => {
     const { setUsername } = this.props;
-    setUsername({ username });
+    setUsername({ userName });
   };
 
   render() {
-    const { username } = this.props;
     return (
       <React.Fragment>
         <Route
@@ -44,11 +42,7 @@ class Content extends React.PureComponent {
             <Starter {...props} handler={this.handleRoomCreation} />
           )}
         />
-        {username ? (
-          <Route path="/room/:id" component={Room} />
-        ) : (
-          <EnterNameModal handleSubmit={this.handleSubmittedUsername} />
-        )}
+        <Route path="/room/:name" component={Room} />
       </React.Fragment>
     );
   }
@@ -57,20 +51,20 @@ class Content extends React.PureComponent {
 Content.propTypes = {
   createRoomForm: PropTypes.shape({
     roomName: PropTypes.string,
-    username: PropTypes.string
+    userName: PropTypes.string
   }).isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
   saveToken: PropTypes.func.isRequired,
   setUsername: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     createRoomForm: state.createForm,
-    username: state.room.username
+    userName: state.room.userName
   };
 };
 

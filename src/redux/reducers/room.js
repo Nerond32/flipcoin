@@ -7,9 +7,9 @@ import {
 } from 'redux/actions/actions';
 
 const initialState = {
-  username: '',
-  token: '',
-  name: '',
+  userName: '',
+  userToken: '',
+  roomName: '',
   users: [],
   messages: [],
   messageInput: ''
@@ -23,29 +23,29 @@ const roomReducer = (state = initialState, action) => {
     };
   }
   if (action.type === SAVE_TOKEN) {
-    const { username, token } = action.payload;
+    const { userName, userToken } = action.payload;
     return {
       ...state,
-      token,
-      username
+      userToken,
+      userName
     };
   }
   if (action.type === SET_USERNAME) {
-    const { username } = action.payload;
+    const { userName } = action.payload;
     return {
       ...state,
-      username
+      userName
     };
   }
   if (action.type === UPDATE_ROOM) {
-    const { name, users, messages, token, username } = action.payload;
+    const { roomName, users, messages, userToken, userName } = action.payload;
     return {
       ...state,
-      name,
+      roomName,
       users,
       messages,
-      token,
-      username
+      userToken,
+      userName
     };
   }
   if (action.type === UPDATE_MESSAGE) {

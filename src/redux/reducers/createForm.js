@@ -1,7 +1,7 @@
 import { CREATION_FORM_UPDATE_FIELD } from 'redux/actions/actions';
 
 const initialState = {
-  username: '',
+  userName: '',
   roomName: ''
 };
 

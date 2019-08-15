@@ -7,13 +7,13 @@ import room from './room';
 const createFormPersistConfig = {
   key: 'createForm',
   storage,
-  whitelist: ['username']
+  whitelist: ['userName']
 };
 
 const roomPersistConfig = {
   key: 'room',
   storage,
-  blacklist: []
+  whitelist: ['userToken']
 };
 
 export default combineReducers({

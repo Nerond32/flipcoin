@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './EnterNameModal.scss';
 import Button from '@material-ui/core/Button';
@@ -17,10 +18,10 @@ const EnterNameModal = ({ handleSubmit }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { input: '' });
   return (
     <div className="modal-main">
-      <h4>Enter your username:</h4>
+      <h4>Enter your userName:</h4>
       <TextField
-        id="username"
-        name="username"
+        id="userName"
+        name="userName"
         label="Username"
         value={state.input}
         onChange={event =>
@@ -46,4 +47,10 @@ EnterNameModal.propTypes = {
   handleSubmit: PropTypes.func.isRequired
 };
 
-export default EnterNameModal;
+const mapStateToProps = state => {
+  return {
+    userName: state.createForm.userName
+  };
+};
+
+export default connect(mapStateToProps)(EnterNameModal);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import messageTypes from 'constants/messageTypes';
+import './Display.scss';
 
 const Display = ({ messages }) => {
   return (

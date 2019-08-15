@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setUsername, updateRoom } from 'redux/actions/actions';
 import axios from 'utils/axios';
+import NewRoomModal from 'components/Modals/NewRoomModal';
+import EnterNameModal from 'components/Modals/EnterNameModal';
 import Chat from './Chat';
 import UserList from './UserList';
 import Settings from './Settings';
-import EnterNameModal from '../EnterNameModal';
 
 import './Room.scss';
-import NewRoomModal from './NewRoomModal/NewRoomModal';
 
 class Room extends React.PureComponent {
   constructor(props) {
@@ -75,7 +75,7 @@ class Room extends React.PureComponent {
     const { match, userToken, users, userName } = this.props;
     const { response } = this.state;
     return (
-      <div className="room">
+      <React.Fragment>
         {!userName ? (
           <Route
             path="/room/:name"
@@ -88,7 +88,7 @@ class Room extends React.PureComponent {
           />
         ) : null}
         {response === 'OK' && (
-          <div>
+          <div className="room">
             <h1>{match.params.name}</h1>
             <div id="chat">
               {userToken && <Chat roomName={match.params.name} />}
@@ -102,7 +102,7 @@ class Room extends React.PureComponent {
           </div>
         )}
         {response === 'NOK' && <NewRoomModal />}
-      </div>
+      </React.Fragment>
     );
   }
 }

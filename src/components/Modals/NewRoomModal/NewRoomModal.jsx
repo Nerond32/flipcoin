@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import './NewRoomModal.scss';
-
-import Starter from '../../Starter';
+import Modal from 'components/Generic/Modal';
+import Starter from 'components/App/Content/Starter';
 
 const EnterNameModal = () => {
   const handler = () => {};
   return (
-    <div className="modal-main">
+    <Modal>
       <h4>Room not found, want to create one?</h4>
       <Starter handler={handler} />
-    </div>
+    </Modal>
   );
 };
 

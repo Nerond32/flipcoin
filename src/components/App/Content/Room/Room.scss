@@ -10,16 +10,19 @@
   "chat . ."
   "chat . userlist";
   padding: 1em;
+  div {
+    max-height:100%;
+  }
   h1 {
     grid-area:title;
   }
-  > #chat {
+  #chat {
     grid-area:chat;
   }
-  > #settings {
+  #settings {
     grid-area:settings;
   }
-  > #userlist {
+  #userlist {
     grid-area:userlist;
   }
 }

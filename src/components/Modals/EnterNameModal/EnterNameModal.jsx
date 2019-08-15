@@ -1,9 +1,9 @@
 import React, { useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import './EnterNameModal.scss';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Modal from 'components/Generic/Modal';
 
 const enterNameModalReducer = (state, action) => {
   switch (action.type) {
@@ -17,7 +17,7 @@ const enterNameModalReducer = (state, action) => {
 const EnterNameModal = ({ handleSubmit }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { input: '' });
   return (
-    <div className="modal-main">
+    <Modal>
       <h4>Enter your userName:</h4>
       <TextField
         id="userName"
@@ -39,7 +39,7 @@ const EnterNameModal = ({ handleSubmit }) => {
       >
         Enter
       </Button>
-    </div>
+    </Modal>
   );
 };
 

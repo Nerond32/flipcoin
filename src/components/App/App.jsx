@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import Header from 'components/App/Header';
 import Content from 'components/App/Content';
 import { store, persistor } from 'redux/store';
+import library from './faLibrary';
 import './App.scss';
 
 const App = () => {

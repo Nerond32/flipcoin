@@ -1,12 +1,14 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
+import Button from 'components/Generic/Button';
+import './Settings.scss';
 
 const Settings = () => {
   return (
     <div className="settings">
       <h2>Settings</h2>
+      <div className="settings-container">Placeholder</div>
       <Button variant="contained" color="primary">
-        FLIP
+        GO
       </Button>
     </div>
   );

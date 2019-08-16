@@ -1,15 +1,32 @@
 header {
-    background-color:red;
+    background-color:white;
+    border-bottom-right-radius: 90%;
+    box-shadow: 5px 5px 5px orangered;
+    display:flex;
     padding:1em;
-    & > * {
-        display:inline;
+    width:18rem;
+    .headerText {
+        margin: 0.4em 0 0 0.6em;
+        h1 {
+            font-size: 1.2rem;
+            font-weight:600;
+            margin:2px;
+        }
+        h2 {
+            color:grey;
+            font-size: 0.7rem;
+            margin:2px;
+            font-weight:400;
+        }
     }
-    h1 {
-        font-size: 4rem;
-    }
-    & > a > .logo {
-        height: 5em;
-        margin-right:1em;
-        width: 5em;
+    a {
+        
+        max-height:4em;
+        max-width:4em;
+        .logo {
+            height: 100%;
+            margin:2px;
+            width: 100%;
+        }
     }
 }

@@ -3,18 +3,13 @@ import { connect } from 'react-redux';
 import Modal from 'components/Generic/Modal';
 import CreateRoomForm from 'components/Forms/CreateRoomForm';
 
-const EnterNameModal = () => {
-  const handler = () => {};
+const NewRoomModal = () => {
   return (
     <Modal>
-      <h4>Room not found, want to create one?</h4>
-      <CreateRoomForm handler={handler} />
+      <h2>Room not found, want to create one?</h2>
+      <CreateRoomForm />
     </Modal>
   );
-};
-
-EnterNameModal.propTypes = {
-  // handleSubmit: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -23,4 +18,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(EnterNameModal);
+export default connect(mapStateToProps)(NewRoomModal);

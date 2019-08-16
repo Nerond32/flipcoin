@@ -31,7 +31,7 @@ class Room extends React.PureComponent {
     const { match, updateRoomData } = this.props;
     axios
       .post(
-        `api/rooms/${match.params.name}`,
+        `api/rooms/${match.params.roomName}`,
         { userName },
         {
           headers: {
@@ -78,7 +78,7 @@ class Room extends React.PureComponent {
       <React.Fragment>
         {!userName ? (
           <Route
-            path="/room/:name"
+            path="/room/:roomName"
             render={props => (
               <EnterNameModal
                 {...props}
@@ -89,9 +89,9 @@ class Room extends React.PureComponent {
         ) : null}
         {response === 'OK' && (
           <div className="room">
-            <h1>{match.params.name}</h1>
+            <h1>{match.params.roomName}</h1>
             <div id="chat">
-              {userToken && <Chat roomName={match.params.name} />}
+              {userToken && <Chat roomName={match.params.roomName} />}
             </div>
             <div id="settings">
               <Settings />
@@ -110,7 +110,7 @@ class Room extends React.PureComponent {
 Room.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      roomName: PropTypes.string.isRequired
     })
   }).isRequired,
   users: PropTypes.arrayOf(
@@ -127,7 +127,7 @@ const mapStateToProps = state => {
     roomName: state.room.roomName,
     userToken: state.room.userToken,
     users: state.room.users,
-    userName: state.room.userName
+    userName: state.app.userName
   };
 };
 

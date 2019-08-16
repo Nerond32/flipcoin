@@ -9,8 +9,10 @@ const Header = () => {
       <Link to="/">
         <img className="logo" src={coinImg} alt="Logo" />
       </Link>
-      <h1>Flipcoin</h1>
-      <h2>A fair multi-person coin toss</h2>
+      <div className="headerText">
+        <h1>Flipcoin</h1>
+        <h2>A fair multi-person coin toss</h2>
+      </div>
     </header>
   );
 };

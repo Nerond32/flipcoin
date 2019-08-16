@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Button from 'components/Generic/Button';
 import TextField from '@material-ui/core/TextField';
 import { handleNewMessage, updateMessage } from 'redux/actions/actions';
 import Display from './Display';
@@ -58,20 +59,22 @@ class Chat extends React.PureComponent {
     return (
       <div className="chat">
         <Display messages={messages} />
-        <TextField
-          style={{ margin: 8 }}
-          fullWidth
-          margin="normal"
-          variant="filled"
-          InputLabelProps={{
-            shrink: true
-          }}
-          onChange={this.onChange}
-          value={messageInput}
-        />
-        <Button variant="contained" color="primary" onClick={this.sendMessage}>
-          Send
-        </Button>
+        <div className="messageInput">
+          <TextField
+            style={{ display: 'inline', flex: 1 }}
+            fullWidth
+            margin="normal"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true
+            }}
+            onChange={this.onChange}
+            value={messageInput}
+          />
+          <Button onClick={this.sendMessage}>
+            <FontAwesomeIcon icon="paper-plane" size="3x" />
+          </Button>
+        </div>
       </div>
     );
   }

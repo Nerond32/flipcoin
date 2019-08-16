@@ -37,7 +37,7 @@ class Content extends React.PureComponent {
             <CreateRoomForm {...props} handler={this.handleRoomCreation} />
           )}
         />
-        <Route path="/room/:name" component={Room} />
+        <Route path="/room/:roomName" component={Room} />
       </React.Fragment>
     );
   }
@@ -54,7 +54,7 @@ Content.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    userName: state.room.userName
+    userName: state.app.userName
   };
 };
 

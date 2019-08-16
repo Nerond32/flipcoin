@@ -1,9 +1,11 @@
 import React, { useReducer } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { saveLastUserName } from 'redux/actions/actions';
+import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import axios from 'utils/axios';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { saveLastUserName, saveToken } from 'redux/actions/actions';
 
 const createRoomFormReducer = (state, action) => {
   switch (action.type) {
@@ -14,13 +16,31 @@ const createRoomFormReducer = (state, action) => {
   }
 };
 
-const CreateRoomForm = ({ handler, saveLastUserName, userName }) => {
+const CreateRoomForm = ({
+  history,
+  match,
+  saveLastUserName,
+  saveToken,
+  userName
+}) => {
+  const handleRoomCreation = ({ roomName, userName }) => {
+    axios
+      .post('api/rooms', { roomName, userName })
+      .then(response => {
+        if (response.status === 201) {
+          const { userName, userToken } = response.data;
+          saveToken({ userToken, userName });
+          history.push(`/room/${roomName}`);
+        }
+      })
+      .catch(() => {});
+  };
   const [state, dispatch] = useReducer(createRoomFormReducer, {
     userName,
-    roomName: ''
+    roomName: match.params.roomName || ''
   });
   return (
-    <form onSubmit={handler}>
+    <form>
       <TextField
         id="roomName"
         name="roomName"
@@ -52,7 +72,7 @@ const CreateRoomForm = ({ handler, saveLastUserName, userName }) => {
         onClick={event => {
           event.preventDefault();
           saveLastUserName({ newName: state.userName });
-          handler({ ...state });
+          handleRoomCreation({ ...state });
         }}
       >
         Create Room
@@ -66,8 +86,16 @@ CreateRoomForm.defaultProps = {
 };
 
 CreateRoomForm.propTypes = {
-  handler: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      roomName: PropTypes.string
+    })
+  }).isRequired,
   saveLastUserName: PropTypes.func.isRequired,
+  saveToken: PropTypes.func.isRequired,
   userName: PropTypes.string
 };
 
@@ -79,11 +107,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveLastUserName: userName => dispatch(saveLastUserName(userName))
+    saveLastUserName: userName => dispatch(saveLastUserName(userName)),
+    saveToken: payload => dispatch(saveToken(payload))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CreateRoomForm);
+)(withRouter(CreateRoomForm));

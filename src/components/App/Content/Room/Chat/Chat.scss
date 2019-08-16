@@ -1,7 +1,14 @@
 .chat{
     display:flex;
     flex-direction:column;
-    & > .chatDisplay {
+    height:100%;
+    .chatDisplay {
         flex: 1
+    }
+    .messageInput {
+        display:flex;
+        :first-child {
+            flex:1;
+        }
     }
 }

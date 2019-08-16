@@ -1,14 +1,13 @@
 .room {
-  background-color:darksalmon;
   display:grid;
   flex:1;
   grid:6em 1em 1fr 1em 1fr / 2fr 1em 1fr;
   grid-template-areas:
-  "title title title"
-  ". . ."
-  "chat . settings"
-  "chat . ."
-  "chat . userlist";
+    "title title title"
+    ". . ."
+    "chat . settings"
+    "chat . ."
+    "chat . userlist";
   padding: 1em;
   div {
     max-height:100%;
@@ -24,5 +23,19 @@
   }
   #userlist {
     grid-area:userlist;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .room {
+    grid:6em 1em 2fr 1em 1fr 1em 1fr / 1fr;
+    grid-template-areas:
+      "title"
+      "."
+      "chat"
+      "."
+      "settings"
+      "."
+      "userlist";
   }
 }

@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import app from './appReducer';
-import room from './room';
+import room from './roomReducer';
 
 const appPersistConfig = {
   key: 'app',

@@ -1,8 +1,4 @@
-import {
-  HANDLE_NEW_MESSAGE,
-  SET_USERNAME,
-  UPDATE_ROOM
-} from 'redux/actions/actions';
+import { HANDLE_NEW_MESSAGE, UPDATE_ROOM } from 'actions';
 
 const initialState = {
   userName: '',
@@ -17,13 +13,6 @@ const roomReducer = (state = initialState, action) => {
     return {
       ...state,
       messages: [...state.messages, action.payload.newMessage]
-    };
-  }
-  if (action.type === SET_USERNAME) {
-    const { userName } = action.payload;
-    return {
-      ...state,
-      userName
     };
   }
   if (action.type === UPDATE_ROOM) {

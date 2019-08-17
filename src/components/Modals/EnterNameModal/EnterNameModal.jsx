@@ -1,7 +1,7 @@
-import React, { useReducer } from 'react';
+import React, { memo, useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveUserName } from 'redux/actions/actions';
+import { saveUserName } from 'actions';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 import Modal from 'components/Generic/Modal';
@@ -15,7 +15,7 @@ const enterNameModalReducer = (state, action) => {
   }
 };
 
-const EnterNameModal = ({ handleSubmit, saveUserName }) => {
+const EnterNameModal = memo(({ saveUserName }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { userName: '' });
   return (
     <Modal title="Enter your username">
@@ -34,24 +34,16 @@ const EnterNameModal = ({ handleSubmit, saveUserName }) => {
       <Button
         onClick={() => {
           saveUserName({ newName: state.userName });
-          handleSubmit(state.input);
         }}
       >
         Enter
       </Button>
     </Modal>
   );
-};
+});
 
 EnterNameModal.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
   saveUserName: PropTypes.func.isRequired
-};
-
-const mapStateToProps = state => {
-  return {
-    userName: state.app.userName
-  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -61,6 +53,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EnterNameModal);

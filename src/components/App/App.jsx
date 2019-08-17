@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Header from 'components/App/Header';
 import Content from 'components/App/Content';
-import { store, persistor } from 'redux/store';
+import { store, persistor } from 'store/store';
 // eslint-disable-next-line no-unused-vars
 import library from './faLibrary';
 import './App.scss';

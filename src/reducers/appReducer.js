@@ -1,4 +1,4 @@
-import { SAVE_USER_TOKEN, SAVE_USERNAME } from 'redux/actions/actions';
+import { SAVE_USER_TOKEN, SAVE_USERNAME } from 'actions';
 
 const initialState = {
   userName: '',

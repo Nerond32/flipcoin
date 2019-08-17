@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveUserToken, setUsername, updateRoom } from 'redux/actions/actions';
+import { saveUserToken, updateRoom } from 'actions';
 import io from 'socket.io-client';
 import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
@@ -67,26 +67,13 @@ class Room extends React.PureComponent {
     );
   }
 
-  handleSubmittedUsername = userName => {
-    const { setUsername } = this.props;
-    setUsername({ userName });
-  };
-
   render() {
     const { match, userToken, users, userName } = this.props;
     const { response } = this.state;
     return (
       <React.Fragment>
         {!userName ? (
-          <Route
-            path="/room/:roomName"
-            render={props => (
-              <EnterNameModal
-                {...props}
-                handleSubmit={this.handleSubmittedUsername}
-              />
-            )}
-          />
+          <Route path="/room/:roomName" component={EnterNameModal} />
         ) : null}
         {response === 'OK' && (
           <div className="room">
@@ -120,7 +107,6 @@ Room.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({ name: PropTypes.string, confirmed: PropTypes.bool })
   ).isRequired,
-  setUsername: PropTypes.func.isRequired,
   userToken: PropTypes.string.isRequired,
   saveUserToken: PropTypes.func.isRequired,
   updateRoom: PropTypes.func.isRequired,
@@ -136,7 +122,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   saveUserToken: payload => dispatch(saveUserToken(payload)),
-  setUsername: payload => dispatch(setUsername(payload)),
   updateRoom: payload => dispatch(updateRoom(payload))
 });
 

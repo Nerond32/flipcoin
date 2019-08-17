@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import axios from 'utils/axios';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
-import { saveLastUserName, saveToken } from 'redux/actions/actions';
+import { saveUserName, saveUserToken } from 'redux/actions/actions';
 
 const createRoomFormReducer = (state, action) => {
   switch (action.type) {
@@ -19,8 +19,8 @@ const createRoomFormReducer = (state, action) => {
 const CreateRoomForm = ({
   history,
   match,
-  saveLastUserName,
-  saveToken,
+  saveUserName,
+  saveUserToken,
   userName
 }) => {
   const handleRoomCreation = ({ roomName, userName }) => {
@@ -29,8 +29,8 @@ const CreateRoomForm = ({
       .then(response => {
         if (response.status === 201) {
           const { userName, userToken } = response.data;
-          saveToken({ userToken, userName });
-          history.push(`/room/${roomName}`);
+          saveUserToken({ userToken, userName });
+          // history.push(`/room/${roomName}`);
         }
       })
       .catch(() => {});
@@ -68,7 +68,7 @@ const CreateRoomForm = ({
       <Button
         onClick={event => {
           event.preventDefault();
-          saveLastUserName({ newName: state.userName });
+          saveUserName({ userName: state.userName });
           handleRoomCreation({ ...state });
         }}
       >
@@ -91,8 +91,8 @@ CreateRoomForm.propTypes = {
       roomName: PropTypes.string
     })
   }).isRequired,
-  saveLastUserName: PropTypes.func.isRequired,
-  saveToken: PropTypes.func.isRequired,
+  saveUserName: PropTypes.func.isRequired,
+  saveUserToken: PropTypes.func.isRequired,
   userName: PropTypes.string
 };
 
@@ -104,8 +104,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveLastUserName: userName => dispatch(saveLastUserName(userName)),
-    saveToken: payload => dispatch(saveToken(payload))
+    saveUserName: userName => dispatch(saveUserName(userName)),
+    saveUserToken: payload => dispatch(saveUserToken(payload))
   };
 };
 

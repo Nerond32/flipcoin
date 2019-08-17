@@ -7,13 +7,13 @@ import room from './room';
 const appPersistConfig = {
   key: 'app',
   storage,
-  whitelist: ['userName']
+  whitelist: ['userName', 'userToken']
 };
 
 const roomPersistConfig = {
   key: 'room',
   storage,
-  whitelist: ['userName', 'userToken']
+  whitelist: []
 };
 
 export default combineReducers({

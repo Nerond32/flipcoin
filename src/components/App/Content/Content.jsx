@@ -3,20 +3,20 @@ import { withRouter, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
-import { saveToken, setUsername } from 'redux/actions/actions';
+import { saveUserToken, setUsername } from 'redux/actions/actions';
 import CreateRoomForm from 'components/Forms/CreateRoomForm';
 import Room from './Room';
 
 class Content extends React.PureComponent {
   handleRoomCreation = ({ roomName, userName }) => {
-    const { history, saveToken } = this.props;
+    const { history, saveUserToken } = this.props;
     axios
       .post('api/rooms', { roomName, userName })
       .then(response => {
         if (response.status === 201) {
           const { userName, userToken } = response.data;
-          saveToken({ userToken, userName });
-          history.push(`/room/${roomName}`);
+          saveUserToken({ userToken, userName });
+          // history.push(`/room/${roomName}`);
         }
       })
       .catch(() => {});
@@ -47,7 +47,7 @@ Content.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
-  saveToken: PropTypes.func.isRequired,
+  saveUserToken: PropTypes.func.isRequired,
   setUsername: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired
 };
@@ -60,7 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveToken: payload => dispatch(saveToken(payload)),
+    saveUserToken: payload => dispatch(saveUserToken(payload)),
     setUsername: payload => dispatch(setUsername(payload))
   };
 };

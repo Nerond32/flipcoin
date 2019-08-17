@@ -2,8 +2,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setUsername, updateRoom } from 'redux/actions/actions';
-import axios from 'utils/axios';
+import { saveUserToken, setUsername, updateRoom } from 'redux/actions/actions';
+import io from 'socket.io-client';
 import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
 import Chat from './Chat';
@@ -16,59 +16,59 @@ class Room extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      response: 'NONE'
+      response: 'NONE',
+      socket: null
     };
   }
 
   componentDidMount() {
-    const { userName, userToken } = this.props;
-    if (userName || userToken) {
-      this.joinRoom(userName, userToken);
-    }
-  }
-
-  joinRoom = (userName, userToken) => {
-    const { match, updateRoomData } = this.props;
-    axios
-      .post(
-        `api/rooms/${match.params.roomName}`,
-        { userName },
-        {
-          headers: {
-            userToken
+    const {
+      match,
+      userToken,
+      userName,
+      saveUserToken,
+      updateRoom
+    } = this.props;
+    const { roomName } = match.params;
+    this.setState(
+      state => {
+        return {
+          ...state,
+          socket: io(`http://localhost:7777`)
+        };
+      },
+      () => {
+        const { socket } = this.state;
+        const message = { roomName, userToken, userName };
+        socket.on('connect', () => {
+          socket.emit('request room', JSON.stringify(message));
+        });
+        socket.on('send room', msg => {
+          const parsedMsg = JSON.parse(msg);
+          if (!parsedMsg.error) {
+            const { room, userToken, userName } = parsedMsg;
+            const { hostId, messages, users } = room;
+            saveUserToken({ roomName, userToken });
+            updateRoom({
+              userName,
+              roomName,
+              hostId,
+              messages,
+              users
+            });
+            this.setState(state => ({ ...state, response: 'OK' }));
+          } else {
+            console.log(parsedMsg.error);
+            this.setState(state => ({ ...state, response: 'NOK' }));
           }
-        }
-      )
-      .then(response => {
-        const {
-          roomName,
-          users,
-          messages,
-          userToken,
-          userName
-        } = response.data;
-        updateRoomData({
-          roomName,
-          users,
-          messages,
-          userToken,
-          userName
         });
-        this.setState(state => {
-          return { ...state, response: 'OK' };
-        });
-      })
-      .catch(() => {
-        this.setState(state => {
-          return { ...state, response: 'NOK' };
-        });
-      });
-  };
+      }
+    );
+  }
 
   handleSubmittedUsername = userName => {
     const { setUsername } = this.props;
     setUsername({ userName });
-    this.joinRoom(userName, '');
   };
 
   render() {
@@ -118,25 +118,23 @@ Room.propTypes = {
   ).isRequired,
   setUsername: PropTypes.func.isRequired,
   userToken: PropTypes.string.isRequired,
-  updateRoomData: PropTypes.func.isRequired,
+  saveUserToken: PropTypes.func.isRequired,
+  updateRoom: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    roomName: state.room.roomName,
-    userToken: state.room.userToken,
-    users: state.room.users,
-    userName: state.app.userName
-  };
-};
+const mapStateToProps = state => ({
+  roomName: state.room.roomName,
+  userToken: state.app.userToken,
+  users: state.room.users,
+  userName: state.room.userName
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setUsername: payload => dispatch(setUsername(payload)),
-    updateRoomData: payload => dispatch(updateRoom(payload))
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  saveUserToken: payload => dispatch(saveUserToken(payload)),
+  setUsername: payload => dispatch(setUsername(payload)),
+  updateRoom: payload => dispatch(updateRoom(payload))
+});
 
 export default connect(
   mapStateToProps,

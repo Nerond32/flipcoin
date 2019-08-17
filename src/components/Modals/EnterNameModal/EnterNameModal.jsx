@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveLastUserName } from 'redux/actions/actions';
+import { saveUserName } from 'redux/actions/actions';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 import Modal from 'components/Generic/Modal';
@@ -15,7 +15,7 @@ const enterNameModalReducer = (state, action) => {
   }
 };
 
-const EnterNameModal = ({ handleSubmit, saveLastUserName }) => {
+const EnterNameModal = ({ handleSubmit, saveUserName }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { userName: '' });
   return (
     <Modal title="Enter your username">
@@ -33,7 +33,7 @@ const EnterNameModal = ({ handleSubmit, saveLastUserName }) => {
       />
       <Button
         onClick={() => {
-          saveLastUserName({ newName: state.userName });
+          saveUserName({ newName: state.userName });
           handleSubmit(state.input);
         }}
       >
@@ -45,7 +45,7 @@ const EnterNameModal = ({ handleSubmit, saveLastUserName }) => {
 
 EnterNameModal.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  saveLastUserName: PropTypes.func.isRequired
+  saveUserName: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -56,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveLastUserName: userName => dispatch(saveLastUserName(userName))
+    saveUserName: userName => dispatch(saveUserName(userName))
   };
 };
 

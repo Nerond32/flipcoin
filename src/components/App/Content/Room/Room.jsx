@@ -127,7 +127,7 @@ const mapStateToProps = state => ({
   roomName: state.room.roomName,
   userToken: state.app.userToken,
   users: state.room.users,
-  userName: state.room.userName
+  userName: state.room.userName || state.app.userName
 });
 
 const mapDispatchToProps = dispatch => ({

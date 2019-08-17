@@ -12,7 +12,7 @@ const createRoomFormReducer = (state, action) => {
     case 'INPUT_CHANGE':
       return { ...state, [action.payload.field]: action.payload.newValue };
     default:
-      throw new Error();
+      return state;
   }
 };
 

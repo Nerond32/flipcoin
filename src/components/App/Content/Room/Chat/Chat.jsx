@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,37 +7,46 @@ import TextInput from 'components/Generic/TextInput';
 import Display from './Display';
 import './Chat.scss';
 
-class Chat extends React.PureComponent {
-  onChange = ({ target: { value } }) => {
-    const { updateMsg } = this.props;
-    updateMsg({ value });
-  };
+const chatReducer = (state, action) => {
+  switch (action.type) {
+    case 'INPUT_CHANGE':
+      return { ...state, [action.payload.field]: action.payload.newValue };
+    default:
+      return state;
+  }
+};
 
-  sendMessage = event => {
+const Chat = ({ messages }) => {
+  const [state, dispatch] = useReducer(chatReducer, {
+    message: ''
+  });
+  const sendMessage = event => {
     event.preventDefault();
   };
-
-  render() {
-    const { messages, messageInput } = this.props;
-    return (
-      <div className="chat">
-        <Display messages={messages} />
-        <form className="messageInput" onSubmit={this.sendMessage}>
-          <Button type="submit" noBorder>
-            <FontAwesomeIcon icon="paper-plane" size="2x" />
-          </Button>
-          <TextInput
-            fullWidth
-            onChange={this.onChange}
-            id="chat"
-            name="chat"
-            value={messageInput}
-          />
-        </form>
-      </div>
-    );
-  }
-}
+  const { message } = state;
+  return (
+    <div className="chat">
+      <Display messages={messages} />
+      <form className="messageInput" onSubmit={sendMessage}>
+        <Button type="submit" noBorder>
+          <FontAwesomeIcon icon="paper-plane" size="2x" />
+        </Button>
+        <TextInput
+          fullWidth
+          onChange={event =>
+            dispatch({
+              type: 'INPUT_CHANGE',
+              payload: { field: 'message', newValue: event.target.value }
+            })
+          }
+          id="chat"
+          name="chat"
+          value={message}
+        />
+      </form>
+    </div>
+  );
+};
 
 Chat.propTypes = {
   messages: PropTypes.arrayOf(
@@ -45,24 +54,13 @@ Chat.propTypes = {
       source: PropTypes.string,
       content: PropTypes.string
     })
-  ).isRequired,
-  roomName: PropTypes.string.isRequired,
-  updateMsg: PropTypes.func.isRequired,
-  userName: PropTypes.string.isRequired
+  ).isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    messages: state.room.messages,
-    userName: state.room.userName
+    messages: state.room.messages
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Chat);
+export default connect(mapStateToProps)(Chat);

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Button from 'components/Generic/Button';
+import TextInput from 'components/Generic/TextInput';
 import { saveLastUserName, saveToken } from 'redux/actions/actions';
 
 const createRoomFormReducer = (state, action) => {
@@ -41,7 +41,7 @@ const CreateRoomForm = ({
   });
   return (
     <form>
-      <TextField
+      <TextInput
         id="roomName"
         name="roomName"
         label="Room name"
@@ -53,7 +53,7 @@ const CreateRoomForm = ({
           })
         }
       />
-      <TextField
+      <TextInput
         id="userName"
         name="userName"
         label="Username"
@@ -66,9 +66,6 @@ const CreateRoomForm = ({
         }
       />
       <Button
-        type="submit"
-        variant="contained"
-        color="primary"
         onClick={event => {
           event.preventDefault();
           saveLastUserName({ newName: state.userName });

@@ -7,7 +7,7 @@ const Settings = () => {
     <div className="settings">
       <h2>Settings</h2>
       <div className="settings-container">Placeholder</div>
-      <Button variant="contained" color="primary">
+      <Button variant="contained" color="primary" onClick={() => {}}>
         GO
       </Button>
     </div>

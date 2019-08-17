@@ -5,8 +5,7 @@ import CreateRoomForm from 'components/Forms/CreateRoomForm';
 
 const NewRoomModal = () => {
   return (
-    <Modal>
-      <h2>Room not found, want to create one?</h2>
+    <Modal title="Room not found, want to create one?">
       <CreateRoomForm />
     </Modal>
   );

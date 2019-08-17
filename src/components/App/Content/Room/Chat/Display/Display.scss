@@ -1,4 +1,7 @@
 .chatDisplay {
-    background-color:yellowgreen;
     overflow-y:auto;
+    p {
+        margin:0.1em 1.2em 0 1.2em;
+        padding:0;
+    }
 }

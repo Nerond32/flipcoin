@@ -2,12 +2,13 @@
     display:flex;
     flex-direction:column;
     height:100%;
+    width:100%;
     .chatDisplay {
         flex: 1
     }
     .messageInput {
         display:flex;
-        :first-child {
+        .text-input {
             flex:1;
         }
     }

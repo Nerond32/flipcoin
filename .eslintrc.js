@@ -20,6 +20,7 @@ module.exports = {
     'no-unused-vars': 1,
     'no-shadow': 0,
     'babel/semi': 0,
+    'jsx-a11y/label-has-for': 0,
     'prettier/prettier': [2, { singleQuote: true, endOfLine: 'auto' }],
     'react/prop-types': 1,
     'react/forbid-prop-types': 0,

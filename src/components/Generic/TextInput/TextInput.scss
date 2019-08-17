@@ -1,0 +1,27 @@
+@import 'styles/variables.scss';
+
+.text-input {
+    margin:1em;
+    position:relative;
+    label {
+        color:$foregroundLight;
+        font-size:0.8em;
+        position:absolute;
+        left:0.1em;
+        top:-1.2em;
+    }
+    input {
+        background-color:transparent;
+        border:none;
+        border-bottom:1px solid black;
+        flex:1;
+        height:100%;
+    }
+}
+
+.text-input-full-width {
+    display:flex;
+    input {
+        flex:1;
+    }
+}

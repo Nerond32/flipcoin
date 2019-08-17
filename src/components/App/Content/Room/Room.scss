@@ -5,9 +5,9 @@
   grid-template-areas:
     "title title title"
     ". . ."
-    "chat . settings"
+    "chat . userlist"
     "chat . ."
-    "chat . userlist";
+    "chat . settings";
   padding: 1em;
   div {
     max-height:100%;

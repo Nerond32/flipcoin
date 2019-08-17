@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/Generic/Button';
-import TextField from '@material-ui/core/TextField';
+import TextInput from 'components/Generic/TextInput';
 import { handleNewMessage, updateMessage } from 'redux/actions/actions';
 import Display from './Display';
 import './Chat.scss';
@@ -41,7 +41,8 @@ class Chat extends React.PureComponent {
     updateMsg({ value });
   };
 
-  sendMessage = () => {
+  sendMessage = event => {
+    event.preventDefault();
     const { messageInput, updateMsg, userName, roomName } = this.props;
     const { socket } = this.state;
     socket.send(
@@ -59,22 +60,18 @@ class Chat extends React.PureComponent {
     return (
       <div className="chat">
         <Display messages={messages} />
-        <div className="messageInput">
-          <TextField
-            style={{ display: 'inline', flex: 1 }}
+        <form className="messageInput" onSubmit={this.sendMessage}>
+          <Button type="submit" noBorder>
+            <FontAwesomeIcon icon="paper-plane" size="2x" />
+          </Button>
+          <TextInput
             fullWidth
-            margin="normal"
-            variant="filled"
-            InputLabelProps={{
-              shrink: true
-            }}
             onChange={this.onChange}
+            id="chat"
+            name="chat"
             value={messageInput}
           />
-          <Button onClick={this.sendMessage}>
-            <FontAwesomeIcon icon="paper-plane" size="3x" />
-          </Button>
-        </div>
+        </form>
       </div>
     );
   }

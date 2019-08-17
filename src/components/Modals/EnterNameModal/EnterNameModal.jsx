@@ -2,8 +2,8 @@ import React, { useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { saveLastUserName } from 'redux/actions/actions';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Button from 'components/Generic/Button';
+import TextInput from 'components/Generic/TextInput';
 import Modal from 'components/Generic/Modal';
 
 const enterNameModalReducer = (state, action) => {
@@ -18,9 +18,8 @@ const enterNameModalReducer = (state, action) => {
 const EnterNameModal = ({ handleSubmit, saveLastUserName }) => {
   const [state, dispatch] = useReducer(enterNameModalReducer, { userName: '' });
   return (
-    <Modal>
-      <h2>Enter your userName:</h2>
-      <TextField
+    <Modal title="Enter your username">
+      <TextInput
         id="userName"
         name="userName"
         label="Username"
@@ -33,9 +32,6 @@ const EnterNameModal = ({ handleSubmit, saveLastUserName }) => {
         }
       />
       <Button
-        type="submit"
-        variant="contained"
-        color="primary"
         onClick={() => {
           saveLastUserName({ newName: state.userName });
           handleSubmit(state.input);

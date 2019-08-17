@@ -23,6 +23,7 @@ class Room extends React.PureComponent {
 
   componentDidMount() {
     const {
+      history,
       match,
       userToken,
       userName,
@@ -59,7 +60,7 @@ class Room extends React.PureComponent {
             this.setState(state => ({ ...state, response: 'OK' }));
           } else {
             console.log(parsedMsg.error);
-            this.setState(state => ({ ...state, response: 'NOK' }));
+            history.push(`/createRoom`);
           }
         });
       }
@@ -108,6 +109,9 @@ class Room extends React.PureComponent {
 }
 
 Room.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       roomName: PropTypes.string.isRequired

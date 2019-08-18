@@ -12,7 +12,7 @@ const roomReducer = (state = initialState, action) => {
   if (action.type === HANDLE_NEW_MESSAGE) {
     return {
       ...state,
-      messages: [...state.messages, action.payload.message]
+      messages: [...state.messages, action.payload]
     };
   }
   if (action.type === PURGE_ROOM) {

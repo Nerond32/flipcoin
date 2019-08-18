@@ -16,64 +16,67 @@ const createRoomFormReducer = (state, action) => {
   }
 };
 
-const CreateRoomForm = memo(
-  ({ history, saveUserName, saveUserToken, userName, userToken }) => {
-    const handleRoomCreation = ({ roomName, userName }) => {
-      axios
-        .post('api/rooms', { roomName, userName, userToken })
-        .then(response => {
-          if (response.status === 201) {
-            const { userName, userToken } = response.data;
-            saveUserToken({ userToken, userName });
-            history.push(`/room/${roomName}`);
-          }
-        })
-        .catch(() => {});
-    };
-    const [state, dispatch] = useReducer(createRoomFormReducer, {
-      userName,
-      roomName: ''
-    });
-    return (
-      <form>
-        <TextInput
-          id="roomName"
-          name="roomName"
-          label="Room name"
-          value={state.roomName}
-          onChange={event =>
-            dispatch({
-              type: 'INPUT_CHANGE',
-              payload: { field: 'roomName', newValue: event.target.value }
-            })
-          }
-        />
-        <TextInput
-          id="userName"
-          name="userName"
-          label="Username"
-          value={state.userName}
-          onChange={event =>
-            dispatch({
-              type: 'INPUT_CHANGE',
-              payload: { field: 'userName', newValue: event.target.value }
-            })
-          }
-        />
-        <Button
-          onClick={event => {
-            event.preventDefault();
-            saveUserName({ userName: state.userName });
-            handleRoomCreation({ ...state });
-          }}
-        >
-          Create Room
-        </Button>
-      </form>
-    );
-  }
-);
-
+const CreateRoomForm = ({
+  history,
+  saveUserName,
+  saveUserToken,
+  userName,
+  userToken
+}) => {
+  const handleRoomCreation = ({ roomName, userName }) => {
+    axios
+      .post('api/rooms', { roomName, userName, userToken })
+      .then(response => {
+        if (response.status === 201) {
+          const { userName, userToken } = response.data;
+          saveUserToken({ userToken, userName });
+          history.push(`/room/${roomName}`);
+        }
+      })
+      .catch(() => {});
+  };
+  const [state, dispatch] = useReducer(createRoomFormReducer, {
+    userName,
+    roomName: ''
+  });
+  return (
+    <form>
+      <TextInput
+        id="roomName"
+        name="roomName"
+        label="Room name"
+        value={state.roomName}
+        onChange={event =>
+          dispatch({
+            type: 'INPUT_CHANGE',
+            payload: { field: 'roomName', newValue: event.target.value }
+          })
+        }
+      />
+      <TextInput
+        id="userName"
+        name="userName"
+        label="Username"
+        value={state.userName}
+        onChange={event =>
+          dispatch({
+            type: 'INPUT_CHANGE',
+            payload: { field: 'userName', newValue: event.target.value }
+          })
+        }
+      />
+      <Button
+        onClick={event => {
+          event.preventDefault();
+          saveUserName({ userName: state.userName });
+          handleRoomCreation({ ...state });
+        }}
+      >
+        Create Room
+      </Button>
+    </form>
+  );
+};
 CreateRoomForm.defaultProps = {
   userName: '',
   userToken: ''
@@ -106,4 +109,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(CreateRoomForm));
+)(withRouter(memo(CreateRoomForm)));

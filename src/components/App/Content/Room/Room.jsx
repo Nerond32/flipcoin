@@ -2,7 +2,12 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { handleNewMessage, saveUserToken, updateRoom } from 'actions';
+import {
+  handleNewMessage,
+  saveUserToken,
+  purgeRoom,
+  updateRoom
+} from 'actions';
 import io from 'socket.io-client';
 import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
@@ -81,6 +86,11 @@ class Room extends React.PureComponent {
     );
   }
 
+  componentWillUnmount() {
+    const { purgeRoom } = this.props;
+    purgeRoom();
+  }
+
   sendMessage = msgContent => {
     const { match, userToken } = this.props;
     const { socket } = this.state;
@@ -132,6 +142,7 @@ Room.propTypes = {
   userToken: PropTypes.string.isRequired,
   handleNewMessage: PropTypes.func.isRequired,
   saveUserToken: PropTypes.func.isRequired,
+  purgeRoom: PropTypes.func.isRequired,
   updateRoom: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
   savedUserName: PropTypes.string.isRequired
@@ -148,6 +159,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   handleNewMessage: payload => dispatch(handleNewMessage(payload)),
   saveUserToken: payload => dispatch(saveUserToken(payload)),
+  purgeRoom: () => dispatch(purgeRoom()),
   updateRoom: payload => dispatch(updateRoom(payload))
 });
 

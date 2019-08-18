@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { memo, useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -71,4 +71,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Chat);
+export default connect(mapStateToProps)(memo(Chat));

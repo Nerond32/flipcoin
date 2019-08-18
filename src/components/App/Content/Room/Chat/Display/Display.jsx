@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import messageTypes from 'constants/messageTypes';
 import './Display.scss';
@@ -34,4 +34,4 @@ Display.propTypes = {
   )
 };
 
-export default Display;
+export default memo(Display);

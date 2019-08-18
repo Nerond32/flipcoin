@@ -33,7 +33,7 @@ const EnterNameModal = memo(({ saveUserName }) => {
       />
       <Button
         onClick={() => {
-          saveUserName({ newName: state.userName });
+          saveUserName({ userName: state.userName });
         }}
       >
         Enter

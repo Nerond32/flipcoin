@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveUserToken, updateRoom } from 'actions';
+import { handleNewMessage, saveUserToken, updateRoom } from 'actions';
 import io from 'socket.io-client';
 import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
@@ -27,8 +27,10 @@ class Room extends React.PureComponent {
       match,
       userToken,
       userName,
+      handleNewMessage,
       saveUserToken,
-      updateRoom
+      updateRoom,
+      savedUserName
     } = this.props;
     const { roomName } = match.params;
     this.setState(
@@ -40,7 +42,11 @@ class Room extends React.PureComponent {
       },
       () => {
         const { socket } = this.state;
-        const message = { roomName, userToken, userName };
+        const message = {
+          roomName,
+          userToken,
+          userName: userName || savedUserName
+        };
         socket.on('connect', () => {
           socket.emit('request room', JSON.stringify(message));
         });
@@ -63,12 +69,28 @@ class Room extends React.PureComponent {
             history.push(`/createRoom`);
           }
         });
+        socket.on('new message', msg => {
+          const parsedMsg = JSON.parse(msg);
+          if (!parsedMsg.error) {
+            handleNewMessage(parsedMsg);
+          } else {
+            console.log(parsedMsg.error);
+          }
+        });
       }
     );
   }
 
+  sendMessage = msgContent => {
+    const { match, userToken } = this.props;
+    const { socket } = this.state;
+    const { roomName } = match.params;
+    const message = { roomName, userToken, message: msgContent };
+    socket.emit('send message', JSON.stringify(message));
+  };
+
   render() {
-    const { match, userToken, users, userName } = this.props;
+    const { match, users, userName } = this.props;
     const { response } = this.state;
     return (
       <React.Fragment>
@@ -79,7 +101,7 @@ class Room extends React.PureComponent {
           <div className="room">
             <h1>{match.params.roomName}</h1>
             <div id="chat">
-              {userToken && <Chat roomName={match.params.roomName} />}
+              <Chat sendMessage={this.sendMessage} />
             </div>
             <div id="settings">
               <Settings />
@@ -108,19 +130,23 @@ Room.propTypes = {
     PropTypes.shape({ name: PropTypes.string, confirmed: PropTypes.bool })
   ).isRequired,
   userToken: PropTypes.string.isRequired,
+  handleNewMessage: PropTypes.func.isRequired,
   saveUserToken: PropTypes.func.isRequired,
   updateRoom: PropTypes.func.isRequired,
-  userName: PropTypes.string.isRequired
+  userName: PropTypes.string.isRequired,
+  savedUserName: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
   roomName: state.room.roomName,
   userToken: state.app.userToken,
   users: state.room.users,
-  userName: state.room.userName || state.app.userName
+  userName: state.room.userName,
+  savedUserName: state.app.userName
 });
 
 const mapDispatchToProps = dispatch => ({
+  handleNewMessage: payload => dispatch(handleNewMessage(payload)),
   saveUserToken: payload => dispatch(saveUserToken(payload)),
   updateRoom: payload => dispatch(updateRoom(payload))
 });

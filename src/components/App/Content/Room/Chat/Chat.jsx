@@ -16,18 +16,25 @@ const chatReducer = (state, action) => {
   }
 };
 
-const Chat = ({ messages }) => {
+const Chat = ({ messages, sendMessage }) => {
   const [state, dispatch] = useReducer(chatReducer, {
     message: ''
   });
-  const sendMessage = event => {
-    event.preventDefault();
-  };
   const { message } = state;
   return (
     <div className="chat">
       <Display messages={messages} />
-      <form className="messageInput" onSubmit={sendMessage}>
+      <form
+        className="messageInput"
+        onSubmit={event => {
+          event.preventDefault();
+          sendMessage(state.message);
+          dispatch({
+            type: 'INPUT_CHANGE',
+            payload: { field: 'message', newValue: '' }
+          });
+        }}
+      >
         <Button type="submit" noBorder>
           <FontAwesomeIcon icon="paper-plane" size="2x" />
         </Button>
@@ -54,7 +61,8 @@ Chat.propTypes = {
       source: PropTypes.string,
       content: PropTypes.string
     })
-  ).isRequired
+  ).isRequired,
+  sendMessage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

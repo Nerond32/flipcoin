@@ -25,7 +25,7 @@ const CreateRoomForm = memo(
           if (response.status === 201) {
             const { userName, userToken } = response.data;
             saveUserToken({ userToken, userName });
-            // history.push(`/room/${roomName}`);
+            history.push(`/room/${roomName}`);
           }
         })
         .catch(() => {});

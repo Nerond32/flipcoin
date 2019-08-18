@@ -11,6 +11,7 @@ import {
 import io from 'socket.io-client';
 import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
+import Loader from 'components/Generic/Loader';
 import Chat from './Chat';
 import UserList from './UserList';
 import Settings from './Settings';
@@ -104,9 +105,7 @@ class Room extends React.PureComponent {
     const { response } = this.state;
     return (
       <React.Fragment>
-        {!userName ? (
-          <Route path="/room/:roomName" component={EnterNameModal} />
-        ) : null}
+        {response === 'NONE' && <Loader />}
         {response === 'OK' && (
           <div className="room">
             <h1>{match.params.roomName}</h1>
@@ -121,7 +120,7 @@ class Room extends React.PureComponent {
             </div>
           </div>
         )}
-        {response === 'NOK' && <NewRoomModal />}
+        {response === 'NOK' && <EnterNameModal />}
       </React.Fragment>
     );
   }

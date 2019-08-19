@@ -35,12 +35,16 @@ const roomReducer = (state = initialState, action) => {
     };
   }
   if (action.type === USER_JOINED) {
-    return { ...action, users: [...state.users, action.payload] };
+    const { userId, userName } = action.payload;
+    return {
+      ...state,
+      users: [...state.users, { userId, userName, userIsConfirmed: false }]
+    };
   }
   if (action.type === USER_LEFT) {
     const { userId } = action.payload;
     return {
-      ...action,
+      ...state,
       users: [...state.users.filter(user => user.userId !== userId)]
     };
   }

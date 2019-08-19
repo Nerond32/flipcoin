@@ -36,7 +36,9 @@ class Room extends React.PureComponent {
       handleNewMessage,
       saveUserToken,
       updateRoom,
-      savedUserName
+      savedUserName,
+      userJoined,
+      userLeft
     } = this.props;
     const { roomName } = match.params;
     this.setState(
@@ -109,7 +111,7 @@ class Room extends React.PureComponent {
           if (!parsedMsg.error) {
             const { message, userId } = parsedMsg;
             handleNewMessage(message);
-            userLeft(userId);
+            userLeft({ userId });
           } else {
             console.log(parsedMsg.error);
           }
@@ -132,7 +134,7 @@ class Room extends React.PureComponent {
   };
 
   render() {
-    const { match, users } = this.props;
+    const { hostId, match, users } = this.props;
     const { response } = this.state;
     return (
       <React.Fragment>
@@ -147,7 +149,7 @@ class Room extends React.PureComponent {
               <Settings />
             </div>
             <div id="userlist">
-              <UserList users={users} />
+              <UserList users={users} hostId={hostId} />
             </div>
           </div>
         )}
@@ -158,6 +160,7 @@ class Room extends React.PureComponent {
 }
 
 Room.propTypes = {
+  hostId: PropTypes.string.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
@@ -175,7 +178,9 @@ Room.propTypes = {
   purgeRoom: PropTypes.func.isRequired,
   updateRoom: PropTypes.func.isRequired,
   userName: PropTypes.string.isRequired,
-  savedUserName: PropTypes.string.isRequired
+  savedUserName: PropTypes.string.isRequired,
+  userJoined: PropTypes.func.isRequired,
+  userLeft: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -183,6 +188,7 @@ const mapStateToProps = state => ({
   userToken: state.app.userToken,
   users: state.room.users,
   userName: state.room.userName,
+  hostId: state.room.hostId,
   savedUserName: state.app.userName
 });
 

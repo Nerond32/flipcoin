@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import List from '@material-ui/core/List';
 import User from './User';
 
-const UserList = ({ users }) => {
+const UserList = ({ hostId, users }) => {
   return (
     <List dense>
       {users.map(user => {
         return (
           <User
             confirmed={user.userIsConfirmed}
+            isHost={user.userId === hostId}
             name={user.userName}
             key={user.userName}
           />
@@ -20,6 +21,7 @@ const UserList = ({ users }) => {
 };
 
 UserList.propTypes = {
+  hostId: PropTypes.string.isRequired,
   users: PropTypes.array.isRequired
 };
 

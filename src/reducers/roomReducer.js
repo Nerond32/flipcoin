@@ -1,4 +1,10 @@
-import { HANDLE_NEW_MESSAGE, UPDATE_ROOM, PURGE_ROOM } from 'actions';
+import {
+  HANDLE_NEW_MESSAGE,
+  UPDATE_ROOM,
+  PURGE_ROOM,
+  USER_JOINED,
+  USER_LEFT
+} from 'actions';
 
 const initialState = {
   userName: '',
@@ -26,6 +32,16 @@ const roomReducer = (state = initialState, action) => {
       hostId,
       messages,
       users
+    };
+  }
+  if (action.type === USER_JOINED) {
+    return { ...action, users: [...state.users, action.payload] };
+  }
+  if (action.type === USER_LEFT) {
+    const { userId } = action.payload;
+    return {
+      ...action,
+      users: [...state.users.filter(user => user.userId !== userId)]
     };
   }
   return state;

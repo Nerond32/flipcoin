@@ -2,7 +2,8 @@ import { SAVE_USER_TOKEN, SAVE_USERNAME } from 'actions';
 
 const initialState = {
   userName: '',
-  userToken: ''
+  userToken: '',
+  errorInfo: ''
 };
 
 const appReducer = (state = initialState, action) => {

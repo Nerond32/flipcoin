@@ -1,15 +1,15 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   handleNewMessage,
   saveUserToken,
   purgeRoom,
-  updateRoom
+  updateRoom,
+  userJoined,
+  userLeft
 } from 'actions';
 import io from 'socket.io-client';
-import NewRoomModal from 'components/Modals/NewRoomModal';
 import EnterNameModal from 'components/Modals/EnterNameModal';
 import Loader from 'components/Generic/Loader';
 import Chat from './Chat';
@@ -71,14 +71,45 @@ class Room extends React.PureComponent {
             });
             this.setState(state => ({ ...state, response: 'OK' }));
           } else {
-            console.log(parsedMsg.error);
-            history.push(`/createRoom`);
+            switch (parsedMsg.status) {
+              case 404:
+                history.push(`/createRoom`);
+                break;
+              case 409:
+                this.setState(state => ({
+                  ...state,
+                  response: 'USERNAME_TAKEN'
+                }));
+                break;
+              default:
+                console.log(parsedMsg.error);
+            }
           }
         });
         socket.on('new message', msg => {
           const parsedMsg = JSON.parse(msg);
           if (!parsedMsg.error) {
             handleNewMessage(parsedMsg);
+          } else {
+            console.log(parsedMsg.error);
+          }
+        });
+        socket.on('user joined', msg => {
+          const parsedMsg = JSON.parse(msg);
+          if (!parsedMsg.error) {
+            const { message, user } = parsedMsg;
+            handleNewMessage(message);
+            userJoined(user);
+          } else {
+            console.log(parsedMsg.error);
+          }
+        });
+        socket.on('user left', msg => {
+          const parsedMsg = JSON.parse(msg);
+          if (!parsedMsg.error) {
+            const { message, userId } = parsedMsg;
+            handleNewMessage(message);
+            userLeft(userId);
           } else {
             console.log(parsedMsg.error);
           }
@@ -101,7 +132,7 @@ class Room extends React.PureComponent {
   };
 
   render() {
-    const { match, users, userName } = this.props;
+    const { match, users } = this.props;
     const { response } = this.state;
     return (
       <React.Fragment>
@@ -120,7 +151,7 @@ class Room extends React.PureComponent {
             </div>
           </div>
         )}
-        {response === 'NOK' && <EnterNameModal />}
+        {response === 'USERNAME_TAKEN' && <EnterNameModal />}
       </React.Fragment>
     );
   }
@@ -159,7 +190,9 @@ const mapDispatchToProps = dispatch => ({
   handleNewMessage: payload => dispatch(handleNewMessage(payload)),
   saveUserToken: payload => dispatch(saveUserToken(payload)),
   purgeRoom: () => dispatch(purgeRoom()),
-  updateRoom: payload => dispatch(updateRoom(payload))
+  updateRoom: payload => dispatch(updateRoom(payload)),
+  userJoined: payload => dispatch(userJoined(payload)),
+  userLeft: payload => dispatch(userLeft(payload))
 });
 
 export default connect(

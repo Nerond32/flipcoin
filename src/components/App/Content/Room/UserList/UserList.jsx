@@ -9,7 +9,7 @@ const UserList = ({ users }) => {
       {users.map(user => {
         return (
           <User
-            confirmed={user.userConfirmed}
+            confirmed={user.userIsConfirmed}
             name={user.userName}
             key={user.userName}
           />

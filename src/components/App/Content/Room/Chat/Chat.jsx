@@ -2,22 +2,14 @@ import React, { memo, useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import fieldReducer from 'utils/fieldReducer';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 import Display from './Display';
 import './Chat.scss';
 
-const chatReducer = (state, action) => {
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      return { ...state, [action.payload.field]: action.payload.newValue };
-    default:
-      return state;
-  }
-};
-
 const Chat = ({ messages, sendMessage }) => {
-  const [state, dispatch] = useReducer(chatReducer, {
+  const [state, dispatch] = useReducer(fieldReducer, {
     message: ''
   });
   const { message } = state;
@@ -31,7 +23,8 @@ const Chat = ({ messages, sendMessage }) => {
           sendMessage(state.message);
           dispatch({
             type: 'INPUT_CHANGE',
-            payload: { field: 'message', newValue: '' }
+            fieldName: 'message',
+            newValue: ''
           });
         }}
       >
@@ -43,7 +36,8 @@ const Chat = ({ messages, sendMessage }) => {
           onChange={event =>
             dispatch({
               type: 'INPUT_CHANGE',
-              payload: { field: 'message', newValue: event.target.value }
+              fieldName: 'message',
+              newValue: event.target.value
             })
           }
           id="chat"

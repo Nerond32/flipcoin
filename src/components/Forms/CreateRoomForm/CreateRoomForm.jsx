@@ -4,17 +4,9 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
 import { saveUserName, saveUserToken } from 'actions/appActions';
+import fieldReducer from 'utils/fieldReducer';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
-
-const createRoomFormReducer = (state, action) => {
-  switch (action.type) {
-    case 'INPUT_CHANGE':
-      return { ...state, [action.payload.field]: action.payload.newValue };
-    default:
-      return state;
-  }
-};
 
 const CreateRoomForm = ({
   history,
@@ -35,7 +27,7 @@ const CreateRoomForm = ({
       })
       .catch(() => {});
   };
-  const [state, dispatch] = useReducer(createRoomFormReducer, {
+  const [state, dispatch] = useReducer(fieldReducer, {
     userName,
     roomName: ''
   });
@@ -49,7 +41,8 @@ const CreateRoomForm = ({
         onChange={event =>
           dispatch({
             type: 'INPUT_CHANGE',
-            payload: { field: 'roomName', newValue: event.target.value }
+            fieldName: 'roomName',
+            newValue: event.target.value
           })
         }
       />
@@ -61,7 +54,8 @@ const CreateRoomForm = ({
         onChange={event =>
           dispatch({
             type: 'INPUT_CHANGE',
-            payload: { field: 'userName', newValue: event.target.value }
+            fieldName: 'userName',
+            newValue: event.target.value
           })
         }
       />

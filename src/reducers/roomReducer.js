@@ -1,10 +1,10 @@
 import {
-  HANDLE_NEW_MESSAGE,
-  UPDATE_ROOM,
+  NEW_MESSAGE,
+  CREATE_ROOM,
   PURGE_ROOM,
   USER_JOINED,
   USER_LEFT
-} from 'actions';
+} from 'actions/roomActions';
 
 const initialState = {
   userName: '',
@@ -15,16 +15,10 @@ const initialState = {
 };
 
 const roomReducer = (state = initialState, action) => {
-  if (action.type === HANDLE_NEW_MESSAGE) {
-    return {
-      ...state,
-      messages: [...state.messages, action.payload]
-    };
-  }
   if (action.type === PURGE_ROOM) {
     return initialState;
   }
-  if (action.type === UPDATE_ROOM) {
+  if (action.type === CREATE_ROOM) {
     const { userName, roomName, hostId, messages, users } = action.payload;
     return {
       userName,
@@ -32,6 +26,12 @@ const roomReducer = (state = initialState, action) => {
       hostId,
       messages,
       users
+    };
+  }
+  if (action.type === NEW_MESSAGE) {
+    return {
+      ...state,
+      messages: [...state.messages, action.payload]
     };
   }
   if (action.type === USER_JOINED) {

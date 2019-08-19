@@ -1,7 +1,7 @@
 import React, { memo, useReducer } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { saveUserName } from 'actions';
+import { saveUserName } from 'actions/appActions';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 import Modal from 'components/Generic/Modal';
@@ -11,7 +11,7 @@ const enterNameModalReducer = (state, action) => {
     case 'INPUT_CHANGE':
       return { ...state, userName: action.payload };
     default:
-      throw new Error();
+      return state;
   }
 };
 

@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'utils/axios';
+import { saveUserName, saveUserToken } from 'actions/appActions';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
-import { saveUserName, saveUserToken } from 'actions';
 
 const createRoomFormReducer = (state, action) => {
   switch (action.type) {

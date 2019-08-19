@@ -3,12 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import fieldReducer from 'utils/fieldReducer';
+import { sendMessage } from 'actions/socketActions';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 import Display from './Display';
 import './Chat.scss';
 
-const Chat = ({ messages, sendMessage }) => {
+const Chat = ({ messages, roomName, userToken, sendMessage }) => {
   const [state, dispatch] = useReducer(fieldReducer, {
     message: ''
   });
@@ -20,7 +21,7 @@ const Chat = ({ messages, sendMessage }) => {
         className="messageInput"
         onSubmit={event => {
           event.preventDefault();
-          sendMessage(state.message);
+          sendMessage({ roomName, userToken, message: state.message });
           dispatch({
             type: 'INPUT_CHANGE',
             fieldName: 'message',
@@ -56,13 +57,22 @@ Chat.propTypes = {
       content: PropTypes.string
     })
   ).isRequired,
+  roomName: PropTypes.string.isRequired,
+  userToken: PropTypes.string.isRequired,
   sendMessage: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    messages: state.room.messages
-  };
-};
+const mapStateToProps = state => ({
+  messages: state.room.messages,
+  roomName: state.room.roomName,
+  userToken: state.app.userToken
+});
 
-export default connect(mapStateToProps)(memo(Chat));
+const mapDispatchToProps = dispatch => ({
+  sendMessage: payload => dispatch(sendMessage(payload))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(memo(Chat));

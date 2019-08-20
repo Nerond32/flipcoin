@@ -3,7 +3,8 @@ import {
   CREATE_ROOM,
   PURGE_ROOM,
   USER_JOINED,
-  USER_LEFT
+  USER_LEFT,
+  USER_CHANGED_CONFIRM_STATUS
 } from 'actions/roomActions';
 
 const initialState = {
@@ -46,6 +47,22 @@ const roomReducer = (state = initialState, action) => {
     return {
       ...state,
       users: [...state.users.filter(user => user.userId !== userId)]
+    };
+  }
+  if (action.type === USER_CHANGED_CONFIRM_STATUS) {
+    const { userId, userIsConfirmed } = action.payload;
+    const changedUserIndex = state.users.findIndex(
+      user => user.userId === userId
+    );
+    const changedUser = {
+      ...state.users[changedUserIndex],
+      userIsConfirmed
+    };
+    const newUsers = state.users.slice(0);
+    newUsers[changedUserIndex] = changedUser;
+    return {
+      ...state,
+      users: newUsers
     };
   }
   return state;

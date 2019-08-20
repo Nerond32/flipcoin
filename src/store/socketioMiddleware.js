@@ -1,11 +1,17 @@
 import io from 'socket.io-client';
-import { INIT_SOCKET, REQUEST_ROOM, SEND_MESSAGE } from 'actions/socketActions';
+import {
+  INIT_SOCKET,
+  REQUEST_ROOM,
+  SEND_MESSAGE,
+  CHANGE_CONFIRM_STATUS
+} from 'actions/socketActions';
 import { saveUserToken } from 'actions/appActions';
 import {
   createRoom,
   newMessage,
   userJoined,
-  userLeft
+  userLeft,
+  userChangedConfirmStatus
 } from 'actions/roomActions';
 
 const createSocketioMiddleware = () => {
@@ -60,6 +66,11 @@ const createSocketioMiddleware = () => {
             console.log(parsedMsg.error);
           }
         });
+        socket.on('user changed confirm status', msg => {
+          const parsedMsg = JSON.parse(msg);
+          const { userId, userIsConfirmed } = parsedMsg;
+          dispatch(userChangedConfirmStatus({ userId, userIsConfirmed }));
+        });
         break;
       }
       case REQUEST_ROOM: {
@@ -71,11 +82,15 @@ const createSocketioMiddleware = () => {
       case SEND_MESSAGE: {
         const { roomName, userToken, message } = action.payload;
         const msg = { roomName, userToken, message };
-        console.log(msg);
         socket.emit('send message', JSON.stringify(msg));
         break;
       }
-
+      case CHANGE_CONFIRM_STATUS: {
+        const { roomName, userToken, userIsConfirmed } = action.payload;
+        const msg = { roomName, userToken, userIsConfirmed };
+        socket.emit('change confirm status', JSON.stringify(msg));
+        break;
+      }
       default:
     }
     return next(action);

@@ -3,6 +3,7 @@ export const PURGE_ROOM = 'PURGE_ROOM';
 export const NEW_MESSAGE = 'NEW_MESSAGE';
 export const USER_JOINED = 'USER_JOINED';
 export const USER_LEFT = 'USER_LEFT';
+export const USER_CHANGED_CONFIRM_STATUS = 'USER_CHANGED_CONFIRM_STATUS';
 
 export const createRoom = payload => {
   return { type: CREATE_ROOM, payload };
@@ -22,4 +23,8 @@ export const userJoined = payload => {
 
 export const userLeft = payload => {
   return { type: USER_LEFT, payload };
+};
+
+export const userChangedConfirmStatus = payload => {
+  return { type: USER_CHANGED_CONFIRM_STATUS, payload };
 };

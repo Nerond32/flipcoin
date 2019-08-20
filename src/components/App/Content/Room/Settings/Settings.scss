@@ -7,6 +7,15 @@
         font-size:1em;
         font-weight:600;
     }
+    button {
+        width:10em;
+    }
+    .button-ready-state {
+        background-color:greenyellow;
+    }
+    .button-not-ready-state {
+        background-color:lightcoral;
+    }
     .radio-button-group {
         align-self:stretch;
         flex:1;

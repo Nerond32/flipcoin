@@ -1,12 +1,14 @@
-import React, { memo } from 'react';
+import React, { memo, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { changeConfirmStatus } from 'actions/socketActions';
 import Button from 'components/Generic/Button';
 import RadioButtonGroup from 'components/Generic/RadioButtonGroup';
 import './Settings.scss';
 
 const Settings = ({ changeConfirmStatus, roomName, userToken }) => {
+  const [userIsConfirmed, setIsUserConfirmed] = useState(false);
   const choices = [
     'Coin flip',
     'D2',
@@ -26,11 +28,21 @@ const Settings = ({ changeConfirmStatus, roomName, userToken }) => {
       <form className="settings-container">
         <RadioButtonGroup choices={choices} />
         <Button
+          classNames={
+            userIsConfirmed ? 'button-ready-state' : 'button-not-ready-state'
+          }
           onClick={() => {
-            changeConfirmStatus({ roomName, userToken, userIsConfirmed: true });
+            setIsUserConfirmed(!userIsConfirmed);
+            changeConfirmStatus({
+              roomName,
+              userToken,
+              userIsConfirmed: !userIsConfirmed
+            });
           }}
+          noBorder
         >
-          GO
+          <FontAwesomeIcon icon={userIsConfirmed ? 'check' : 'times'} />{' '}
+          {userIsConfirmed ? 'Ready' : 'Not ready'}
         </Button>
       </form>
     </div>

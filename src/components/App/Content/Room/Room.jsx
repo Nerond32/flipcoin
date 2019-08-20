@@ -37,7 +37,6 @@ class Room extends React.PureComponent {
     const { hostId, match, users } = this.props;
     return (
       <React.Fragment>
-        (
         <div className="room">
           <h1>{match.params.roomName}</h1>
           <div id="chat">
@@ -50,7 +49,6 @@ class Room extends React.PureComponent {
             <UserList users={users} hostId={hostId} />
           </div>
         </div>
-        )
       </React.Fragment>
     );
   }

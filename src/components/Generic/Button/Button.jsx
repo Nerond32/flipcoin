@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import './Button.scss';
 
-const Button = ({ children, noBorder, onClick, type }) => {
+const Button = ({ children, classNames, noBorder, onClick, type }) => {
   return (
     // eslint-disable-next-line react/button-has-type
     <button
-      className={noBorder ? 'button-no-border' : ''}
+      className={`${classNames} ${noBorder ? 'button-no-border' : ''}`}
       type={type}
       onClick={onClick}
     >
@@ -18,6 +18,7 @@ const Button = ({ children, noBorder, onClick, type }) => {
 
 Button.defaultProps = {
   noBorder: false,
+  classNames: '',
   onClick: () => {},
   type: 'button'
 };
@@ -25,6 +26,7 @@ Button.defaultProps = {
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   noBorder: PropTypes.bool,
+  classNames: PropTypes.string,
   onClick: PropTypes.func,
   type: PropTypes.oneOf(['button', 'submit', 'reset'])
 };

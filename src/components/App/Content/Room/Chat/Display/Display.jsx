@@ -1,9 +1,13 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import messageTypes from 'constants/messageTypes';
 import './Display.scss';
 
 const Display = ({ messages }) => {
+  const scrollRef = useRef(null);
+  useEffect(() => {
+    scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
   return (
     <div className="chatDisplay">
       {messages.map(message => {
@@ -15,6 +19,7 @@ const Display = ({ messages }) => {
           </p>
         );
       })}
+      <div ref={scrollRef} />
     </div>
   );
 };

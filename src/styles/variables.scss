@@ -1,4 +1,4 @@
 $accent: #f08110;
-$foreground: #393939;
-$foregroundLight: lighten($foreground, 25%);
-$background:#f8f5f5;
+$fontColor: #f8f5f5;
+$fontColorSecondary: darken($fontColor, 10%);
+$background:#222222;

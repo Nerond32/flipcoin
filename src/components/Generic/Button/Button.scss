@@ -5,6 +5,7 @@ button {
     border:1px solid $accent;
     border-radius:46%;
     box-shadow: 1px 1px 1px $accent;
+    color: $fontColor;
     font-size:0.8rem;
     font-weight:600;
     margin:0.6em;
@@ -12,6 +13,9 @@ button {
     transition-duration: 0.2s;
     &:hover {
         background-color: rgba(lighten($accent,20%),0.2);
+    }
+    svg {
+        color:$accent;
     }
 }
 

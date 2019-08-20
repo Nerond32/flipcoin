@@ -9,7 +9,9 @@ const User = ({ confirmed, isHost, name }) => {
   return (
     <ListItem>
       <ListItemIcon>
-        <FontAwesomeIcon icon={confirmed ? 'check' : 'times'} />
+        <span className="user-icon">
+          <FontAwesomeIcon icon={confirmed ? 'check' : 'times'} />
+        </span>
       </ListItemIcon>
       <span className={isHost ? 'host' : ''}>{name}</span>
     </ListItem>

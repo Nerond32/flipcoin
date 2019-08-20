@@ -1,5 +1,22 @@
+@import 'styles/variables.scss';
+
+$scrollbarColor:darken($background,8%);
+$scrollbarButtonColor:$accent;
+
 .chatDisplay {
     overflow-y:auto;
+    scrollbar-color: $scrollbarButtonColor $scrollbarColor;
+    scrollbar-width:thin;
+    &::-webkit-scrollbar {
+        background-color:$scrollbarColor;
+        border-radius:.2rem;
+        width:.4rem;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color:$scrollbarButtonColor;
+        border-radius:.1rem;
+        border: solid 1px $scrollbarColor;
+    }
     p {
         margin:0.1em 1.2em 0 1.2em;
         padding:0;

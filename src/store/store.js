@@ -4,7 +4,7 @@ import logger from 'redux-logger';
 import rootReducer from 'reducers/rootReducer';
 import socketioMiddleware from 'store/socketioMiddleware';
 
-const middlewares = [logger, socketioMiddleware];
+const middlewares = [socketioMiddleware];
 export const store = compose(applyMiddleware(...middlewares))(createStore)(
   rootReducer
 );

@@ -41,7 +41,7 @@ const createSocketioMiddleware = () => {
         socket.on('new message', msg => {
           const parsedMsg = JSON.parse(msg);
           if (!parsedMsg.error) {
-            dispatch(newMessage(parsedMsg));
+            dispatch(newMessage(parsedMsg.message));
           } else {
             console.log(parsedMsg.error);
           }
@@ -76,7 +76,7 @@ const createSocketioMiddleware = () => {
       case REQUEST_ROOM: {
         const { roomName, userToken, userName } = action.payload;
         const request = { roomName, userToken, userName };
-        socket.emit('request room', JSON.stringify(request));
+        socket.emit('get room', JSON.stringify(request));
         break;
       }
       case SEND_MESSAGE: {

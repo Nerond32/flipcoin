@@ -25,7 +25,9 @@ const CreateRoomForm = ({
           history.push(`/room/${roomName}`);
         }
       })
-      .catch(() => {});
+      .catch(err => {
+        console.log(err);
+      });
   };
   const [state, dispatch] = useReducer(fieldReducer, {
     userName,

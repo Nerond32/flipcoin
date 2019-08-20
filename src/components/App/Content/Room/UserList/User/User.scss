@@ -1,3 +1,9 @@
+@import 'styles/variables.scss';
+
 .host {
     font-weight:600;
+}
+
+.user-icon {
+    color:$fontColor;
 }

@@ -7,7 +7,7 @@ import {
   USER_CHANGED_CONFIRM_STATUS
 } from 'actions/roomActions';
 
-const initialState = {
+export const initialState = {
   userName: '',
   roomName: '',
   hostId: '',
@@ -20,7 +20,7 @@ const roomReducer = (state = initialState, action) => {
     return initialState;
   }
   if (action.type === CREATE_ROOM) {
-    const { userName, roomName, hostId, messages, users } = action.payload;
+    const { userName, roomName, hostId, messages, users } = action;
     return {
       userName,
       roomName,
@@ -30,27 +30,31 @@ const roomReducer = (state = initialState, action) => {
     };
   }
   if (action.type === NEW_MESSAGE) {
+    const { msgId, msgType, msgTimestamp, msgAuthor, msgContent } = action;
     return {
       ...state,
-      messages: [...state.messages, action.payload]
+      messages: [
+        ...state.messages,
+        { msgId, msgType, msgTimestamp, msgAuthor, msgContent }
+      ]
     };
   }
   if (action.type === USER_JOINED) {
-    const { userId, userName } = action.payload;
+    const { userId, userName } = action;
     return {
       ...state,
       users: [...state.users, { userId, userName, userIsConfirmed: false }]
     };
   }
   if (action.type === USER_LEFT) {
-    const { userId } = action.payload;
+    const { userId } = action;
     return {
       ...state,
       users: [...state.users.filter(user => user.userId !== userId)]
     };
   }
   if (action.type === USER_CHANGED_CONFIRM_STATUS) {
-    const { userId, userIsConfirmed } = action.payload;
+    const { userId, userIsConfirmed } = action;
     const changedUserIndex = state.users.findIndex(
       user => user.userId === userId
     );
@@ -58,7 +62,7 @@ const roomReducer = (state = initialState, action) => {
       ...state.users[changedUserIndex],
       userIsConfirmed
     };
-    const newUsers = state.users.slice(0);
+    const newUsers = [...state.users];
     newUsers[changedUserIndex] = changedUser;
     return {
       ...state,

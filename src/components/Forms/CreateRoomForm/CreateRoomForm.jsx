@@ -21,7 +21,8 @@ const CreateRoomForm = ({
       .then(response => {
         if (response.status === 201) {
           const { userName, userToken } = response.data;
-          saveUserToken({ userToken, userName });
+          saveUserName(userName);
+          saveUserToken({ userToken });
           history.push(`/room/${roomName}`);
         }
       })
@@ -98,7 +99,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     saveUserName: userName => dispatch(saveUserName(userName)),
-    saveUserToken: payload => dispatch(saveUserToken(payload))
+    saveUserToken: userToken => dispatch(saveUserToken(userToken))
   };
 };
 

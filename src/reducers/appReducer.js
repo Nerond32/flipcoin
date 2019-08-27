@@ -1,6 +1,6 @@
 import { SAVE_USER_NAME, SAVE_USER_TOKEN } from 'actions/appActions';
 
-const initialState = {
+export const initialState = {
   userName: '',
   userToken: '',
   errorInfo: ''
@@ -8,14 +8,14 @@ const initialState = {
 
 const appReducer = (state = initialState, action) => {
   if (action.type === SAVE_USER_NAME) {
-    const { userName } = action.payload;
+    const { userName } = action;
     return {
       ...state,
       userName
     };
   }
   if (action.type === SAVE_USER_TOKEN) {
-    const { userToken } = action.payload;
+    const { userToken } = action;
     return {
       ...state,
       userToken

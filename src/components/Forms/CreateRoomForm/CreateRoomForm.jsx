@@ -20,8 +20,7 @@ const CreateRoomForm = ({
       .post('api/rooms', { roomName, userName, userToken })
       .then(response => {
         if (response.status === 201) {
-          const { userName, userToken } = response.data;
-          saveUserName(userName);
+          const { userToken } = response.data;
           saveUserToken({ userToken });
           history.push(`/room/${roomName}`);
         }

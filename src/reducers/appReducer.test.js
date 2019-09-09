@@ -9,7 +9,7 @@ describe('app reducer', () => {
     expect(reducer(undefined, invalidAction)).toStrictEqual(initialState);
   });
   it('should handle SAVE_USER_NAME', () => {
-    const action = saveUserName('ursula84');
+    const action = saveUserName({ userName: 'ursula84' });
     const expectedState = {
       ...initialState,
       userName: 'ursula84'
@@ -17,10 +17,12 @@ describe('app reducer', () => {
     expect(reducer(initialState, action)).toStrictEqual(expectedState);
   });
   it('should handle SAVE_USER_TOKEN', () => {
-    const action = saveUserName('ursula84');
+    const action = saveUserToken({
+      userToken: '5b4e87b60738800ebffb9d0cb38e2c99'
+    });
     const expectedState = {
       ...initialState,
-      userName: 'ursula84'
+      userToken: '5b4e87b60738800ebffb9d0cb38e2c99'
     };
     expect(reducer(initialState, action)).toStrictEqual(expectedState);
   });

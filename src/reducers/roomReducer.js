@@ -6,6 +6,7 @@ import {
   USER_LEFT,
   USER_CHANGED_CONFIRM_STATUS
 } from 'actions/roomActions';
+import sortUsers from 'utils/users';
 
 export const initialState = {
   userName: '',
@@ -26,7 +27,7 @@ const roomReducer = (state = initialState, action) => {
       roomName,
       hostId,
       messages,
-      users
+      users: [...sortUsers(hostId, users)]
     };
   }
   if (action.type === NEW_MESSAGE) {
@@ -43,7 +44,16 @@ const roomReducer = (state = initialState, action) => {
     const { userId, userName } = action;
     return {
       ...state,
-      users: [...state.users, { userId, userName, userIsConfirmed: false }]
+      users: [
+        ...sortUsers(state.hostId, [
+          ...state.users,
+          {
+            userId,
+            userName,
+            userIsConfirmed: false
+          }
+        ])
+      ]
     };
   }
   if (action.type === USER_LEFT) {

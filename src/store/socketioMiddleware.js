@@ -59,16 +59,16 @@ const createSocketioMiddleware = () => {
         socket.on('user left', msg => {
           const parsedMsg = JSON.parse(msg);
           if (!parsedMsg.error) {
-            const { message, userId } = parsedMsg;
+            const { message, user } = parsedMsg;
             dispatch(newMessage(message));
-            dispatch(userLeft({ userId }));
+            dispatch(userLeft({ userId: user.userId }));
           } else {
             console.log(parsedMsg.error);
           }
         });
         socket.on('user changed confirm status', msg => {
           const parsedMsg = JSON.parse(msg);
-          const { userId, userIsConfirmed } = parsedMsg;
+          const { userId, userIsConfirmed } = parsedMsg.user;
           dispatch(userChangedConfirmStatus({ userId, userIsConfirmed }));
         });
         break;

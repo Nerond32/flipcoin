@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { purgeRoom } from 'actions/roomActions';
-import { requestRoom } from 'actions/socketActions';
+import { requestRoom, initSocket } from 'actions/socketActions';
 import EnterNameModal from 'components/Modals/EnterNameModal';
 import Loader from 'components/Generic/Loader';
 import Chat from './Chat';
@@ -13,6 +13,7 @@ import './Room.scss';
 class Room extends React.PureComponent {
   componentDidMount() {
     const {
+      initSocket,
       match,
       userToken,
       requestRoom,
@@ -25,6 +26,7 @@ class Room extends React.PureComponent {
       userToken,
       userName: userName || savedUserName
     };
+    initSocket();
     requestRoom(message);
   }
 
@@ -59,6 +61,7 @@ Room.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
+  initSocket: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({
       roomName: PropTypes.string.isRequired
@@ -84,6 +87,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  initSocket: () => dispatch(initSocket()),
   purgeRoom: () => dispatch(purgeRoom()),
   requestRoom: payload => dispatch(requestRoom(payload))
 });

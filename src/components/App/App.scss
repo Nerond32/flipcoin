@@ -1,25 +1,17 @@
 @import 'styles/variables.scss';
 
-body, html, #root, .app {
-    background-color:$background;
-    color:$fontColor;
-    font-family:'Verdana';
-    font-size: 1em;
-    height:100vh;
+body,
+html,
+#root,
+.c-app {
+  background-color: $background;
+  color: $fontColor;
+  font-family: 'Verdana';
+  height: 100vh;
 }
 
-.app * {
-    //border:1px solid cyan;
-}
-
-.app {
-    display:flex;
-    flex-direction:column;
-    & > header {
-        height:4.5em;
-    }
-    & > .room {
-        flex:1;
-        overflow-y:auto;
-    }
+.c-app {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }

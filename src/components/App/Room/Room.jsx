@@ -39,15 +39,15 @@ class Room extends React.PureComponent {
     const { hostId, match, users } = this.props;
     return (
       <React.Fragment>
-        <div className="room">
-          <h1>{match.params.roomName}</h1>
-          <div id="chat">
+        <div className="c-room">
+          <h1 className="c-room--h1">{match.params.roomName}</h1>
+          <div className="c-room--item__chat">
             <Chat sendMessage={this.sendMessage} />
           </div>
-          <div id="settings">
+          <div className="c-room--item__settings">
             <Settings />
           </div>
-          <div id="userlist">
+          <div className="c-room--item__userlist">
             <UserList users={users} hostId={hostId} />
           </div>
         </div>

@@ -7,6 +7,7 @@ import { saveUserName, saveUserToken } from 'actions/appActions';
 import fieldReducer from 'utils/fieldReducer';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
+import './RoomForm.scss';
 
 const RoomForm = ({
   history,
@@ -37,11 +38,11 @@ const RoomForm = ({
     history.push(`/room/${roomName}`);
   };
   return (
-    <form>
+    <form className='c-room-form'>
       <TextInput
-        id="roomName"
-        name="roomName"
-        label="Room name"
+        id='roomName'
+        name='roomName'
+        label='Room name'
         value={state.roomName}
         onChange={event =>
           dispatch({
@@ -52,9 +53,9 @@ const RoomForm = ({
         }
       />
       <TextInput
-        id="userName"
-        name="userName"
-        label="Username"
+        id='userName'
+        name='userName'
+        label='Username'
         value={state.userName}
         onChange={event =>
           dispatch({

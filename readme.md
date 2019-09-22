@@ -24,7 +24,7 @@ The optional feature I think hard of is some kind of tinfoil security measuremen
 
 - App should consist of the **welcome page** and the **room**
 - **Welcome page**:
-  - :x: Contains information about the project
+  - :heavy_check_mark: Contains information about the project
   - :heavy_check_mark: Allows creation of a new room
   - :heavy_check_mark: Redirects to the room when it's created
   - :heavy_check_mark: Join room with name feature

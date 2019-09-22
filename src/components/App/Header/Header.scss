@@ -1,34 +1,34 @@
 @import 'styles/variables.scss';
 
 header {
-    background-color:lighten($background,10%);
-    border-bottom-right-radius: 90%;
-    box-shadow: 5px 5px 5px $accent;
-    display:flex;
-    padding:1em;
-    width:18rem;
-    .headerText {
-        margin: 0.4em 0 0 0.6em;
-        h1 {
-            font-size: 1.2rem;
-            font-weight:600;
-            margin:2px;
-        }
-        h2 {
-            color:$fontColorSecondary;
-            font-size: 0.7rem;
-            margin:2px;
-            font-weight:400;
-        }
+  background-color: lighten($background, 10%);
+  border-bottom-right-radius: 90%;
+  box-shadow: 5px 5px 5px $accent;
+  display: flex;
+  padding: 1em;
+  height: 4.5em;
+  width: 18rem;
+  .headerText {
+    margin: 0.4em 0 0 0.6em;
+    h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 2px;
     }
-    a {
-        
-        max-height:4em;
-        max-width:4em;
-        .logo {
-            height: 100%;
-            margin:2px;
-            width: 100%;
-        }
+    h2 {
+      color: $fontColorSecondary;
+      font-size: 0.7rem;
+      margin: 2px;
+      font-weight: 400;
     }
+  }
+  a {
+    max-height: 4em;
+    max-width: 4em;
+    .logo {
+      height: 100%;
+      margin: 2px;
+      width: 100%;
+    }
+  }
 }

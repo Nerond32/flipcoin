@@ -11,7 +11,7 @@ const Header = () => {
       </Link>
       <div className="headerText">
         <h1>Flipcoin</h1>
-        <h2>A fair multi-person coin toss</h2>
+        <h2>A fair multi-person roll</h2>
       </div>
     </header>
   );

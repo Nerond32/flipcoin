@@ -18,13 +18,15 @@ const App = () => {
     <BrowserRouter>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <Header />
-          <React.Fragment>
-            <Route exact path="/" component={Homepage} />
-            <Route path="/createRoom" component={NewRoomModal} />
-            <Route path="/error/:errorMsg" component={ErrorInfoModal} />
-            <Route path="/room/:roomName" component={Room} />
-          </React.Fragment>
+          <div className="c-app">
+            <Header />
+            <React.Fragment>
+              <Route exact path="/" component={Homepage} />
+              <Route path="/createRoom" component={NewRoomModal} />
+              <Route path="/error/:errorMsg" component={ErrorInfoModal} />
+              <Route path="/room/:roomName" component={Room} />
+            </React.Fragment>
+          </div>
         </PersistGate>
       </Provider>
     </BrowserRouter>

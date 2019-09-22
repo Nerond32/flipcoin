@@ -1,41 +1,41 @@
-.room {
-  display:grid;
-  flex:1;
-  grid:6em 1em 1fr 1em 1fr / 2fr 1em 1fr;
+@import 'styles/variables.scss';
+
+.c-room {
+  display: grid;
+  flex: 1;
+  grid: 6em 1em 2fr 1em 1fr 1em 1fr / 1fr;
   grid-template-areas:
-    "title title title"
-    ". . ."
-    "chat . userlist"
-    "chat . ."
-    "chat . settings";
+    'title'
+    '.'
+    'chat'
+    '.'
+    'settings'
+    '.'
+    'userlist';
   padding: 1em;
-  div {
-    max-height:100%;
+  overflow-y: auto;
+  .c-room--h1 {
+    grid-area: title;
   }
-  h1 {
-    grid-area:title;
+  .c-room--item__chat {
+    grid-area: chat;
   }
-  #chat {
-    grid-area:chat;
+  .c-room--item__settings {
+    grid-area: settings;
   }
-  #settings {
-    grid-area:settings;
-  }
-  #userlist {
-    grid-area:userlist;
+  .c-room--item__userlist {
+    grid-area: userlist;
   }
 }
 
-@media only screen and (max-width: 600px) {
-  .room {
-    grid:6em 1em 2fr 1em 1fr 1em 1fr / 1fr;
+@media only screen and (min-width: $size-min-desktop) {
+  .c-room {
+    grid: 6em 1em 1fr 1em 1fr / 2fr 1em 1fr;
     grid-template-areas:
-      "title"
-      "."
-      "chat"
-      "."
-      "settings"
-      "."
-      "userlist";
+      'title title title'
+      '. . .'
+      'chat . userlist'
+      'chat . .'
+      'chat . settings';
   }
 }

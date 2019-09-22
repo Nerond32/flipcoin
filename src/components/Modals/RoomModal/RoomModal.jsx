@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Modal from 'components/Generic/Modal';
-import CreateRoomForm from 'components/Forms/CreateRoomForm';
+import RoomForm from 'components/Forms/RoomForm';
 
 const NewRoomModal = () => {
   return (
     <Modal title="Room not found, want to create one?">
-      <CreateRoomForm />
+      <RoomForm />
     </Modal>
   );
 };

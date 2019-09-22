@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import NewRoomModal from 'components/Modals/NewRoomModal';
+import NewRoomModal from 'components/Modals/RoomModal';
 import ErrorInfoModal from 'components/Modals/ErrorInfoModal';
 
 import { store, persistor } from 'store/store';

@@ -1,10 +1,12 @@
 import React, { memo } from 'react';
-import CreateRoomForm from 'components/Forms/CreateRoomForm';
+import RoomForm from 'components/Forms/RoomForm';
+import About from './About';
 
 const Homepage = () => {
   return (
     <div className="homepage">
-      <CreateRoomForm />
+      <RoomForm />
+      <About />
     </div>
   );
 };

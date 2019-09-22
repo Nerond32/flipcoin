@@ -8,13 +8,17 @@ import fieldReducer from 'utils/fieldReducer';
 import Button from 'components/Generic/Button';
 import TextInput from 'components/Generic/TextInput';
 
-const CreateRoomForm = ({
+const RoomForm = ({
   history,
   saveUserName,
   saveUserToken,
   userName,
   userToken
 }) => {
+  const [state, dispatch] = useReducer(fieldReducer, {
+    userName,
+    roomName: ''
+  });
   const handleRoomCreation = ({ roomName, userName }) => {
     axios
       .post('api/rooms', { roomName, userName, userToken })
@@ -29,10 +33,9 @@ const CreateRoomForm = ({
         console.log(err);
       });
   };
-  const [state, dispatch] = useReducer(fieldReducer, {
-    userName,
-    roomName: ''
-  });
+  const handleRoomJoining = roomName => {
+    history.push(`/room/${roomName}`);
+  };
   return (
     <form>
       <TextInput
@@ -64,6 +67,14 @@ const CreateRoomForm = ({
       <Button
         onClick={event => {
           event.preventDefault();
+          handleRoomJoining(state.roomName);
+        }}
+      >
+        Join Room
+      </Button>
+      <Button
+        onClick={event => {
+          event.preventDefault();
           saveUserName({ userName: state.userName });
           handleRoomCreation({ ...state });
         }}
@@ -73,12 +84,12 @@ const CreateRoomForm = ({
     </form>
   );
 };
-CreateRoomForm.defaultProps = {
+RoomForm.defaultProps = {
   userName: '',
   userToken: ''
 };
 
-CreateRoomForm.propTypes = {
+RoomForm.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired
   }).isRequired,
@@ -105,4 +116,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(memo(CreateRoomForm)));
+)(withRouter(memo(RoomForm)));

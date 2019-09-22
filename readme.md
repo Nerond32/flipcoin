@@ -26,8 +26,8 @@ The optional feature I think hard of is some kind of tinfoil security measuremen
 - **Welcome page**:
   - :x: Contains information about the project
   - :heavy_check_mark: Allows creation of a new room
-    - :heavy_check_mark: Redirects to the room when it's created
-  - :x: Join room with name feature
+  - :heavy_check_mark: Redirects to the room when it's created
+  - :heavy_check_mark: Join room with name feature
   - :x: Responsive and nicely styled
 - **Room**:
   - :heavy_check_mark: Consists of **chat**, **user list** and **settings** areas
